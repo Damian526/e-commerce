@@ -4,8 +4,30 @@ const Product = require('../models/modelProduct');
 // Get all products
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    //build query
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+    const query = Product.find(queryObj);
+    /* 
+    const query = await Product.find()
+      .where('price')
+      .equals(99.99)
+      .where('category')
+      .equals('Electronics'); */
+
+    //execute query
+    const products = await query;
+
+    //send response
+    res.status(200).json({
+      status: 'success',
+      results: products.length,
+      data: {
+        products,
+      },
+    });
   } catch (err) {
     res.status(500).json({ message: 'Server Error' });
   }
