@@ -4,19 +4,21 @@ const Product = require('../models/modelProduct');
 // Get all products
 exports.getAllProducts = async (req, res) => {
   try {
+    console.log(req.query);
     //build query
+    //1) filtering
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
-    const query = Product.find(queryObj);
-    /* 
-    const query = await Product.find()
-      .where('price')
-      .equals(99.99)
-      .where('category')
-      .equals('Electronics'); */
 
+    //2) Advanced filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    // { category: 'Electronics', price {$gte: 200}}
+    // { category: 'Electronics', price: { gte: '100' } }
+    //gte, gt, lte,lt
+    const query = Product.find(JSON.parse(queryStr));
     //execute query
     const products = await query;
 
