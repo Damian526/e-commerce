@@ -7,6 +7,10 @@ const productSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   category: { type: String, required: true },
   stock: { type: Number, required: true },
+  addedAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 const Product = mongoose.model('Product', productSchema);

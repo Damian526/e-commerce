@@ -6,19 +6,25 @@ exports.getAllProducts = async (req, res) => {
   try {
     console.log(req.query);
     //build query
-    //1) filtering
+    //1A) filtering
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    //2) Advanced filtering
+    //1B) Advanced filtering
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
     // { category: 'Electronics', price {$gte: 200}}
     // { category: 'Electronics', price: { gte: '100' } }
     //gte, gt, lte,lt
-    const query = Product.find(JSON.parse(queryStr));
+    let query = Product.find(JSON.parse(queryStr));
+
+    //2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else query = query.sort('addedAt');
     //execute query
     const products = await query;
 
