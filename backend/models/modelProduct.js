@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema({
   addedAt: {
     type: Date,
     default: Date.now(),
+    select: false, // excluding field during seeing results requests in api
   },
 });
 

@@ -25,6 +25,27 @@ exports.getAllProducts = async (req, res) => {
       const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
     } else query = query.sort('addedAt');
+
+    //3) Field limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v'); //- excluding field __v to see in results of request
+    }
+
+    //4) Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    // page=2&limit=5 1-5 page 1, 6-10 page 2
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Product.countDocuments();
+      if (skip >= numTours) throw new Error('This page does not exist');
+    }
+
     //execute query
     const products = await query;
 
