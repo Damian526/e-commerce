@@ -97,3 +97,34 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+exports.getProductStats = async (req, res) => {
+  try {
+    const stats = await Product.aggregate([
+      { $match: { rating: { $gte: 4.5 } } },
+      {
+        $group: {
+          _id: { $toUpper: '$category' },
+          numTours: { $sum: 1 },
+          avgRating: { $avg: '$rating' },
+          numRatings: { $sum: '$rating' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $min: '$price' },
+        },
+      },
+      { $sort: { avgPrice: 1 } },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
