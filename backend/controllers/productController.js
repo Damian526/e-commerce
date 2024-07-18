@@ -107,7 +107,7 @@ exports.getProductStats = async (req, res) => {
           _id: { $toUpper: '$category' },
           numTours: { $sum: 1 },
           avgRating: { $avg: '$rating' },
-          numRatings: { $sum: '$rating' },
+          numRatings: { $sum: '$ratingsNumber' },
           avgPrice: { $avg: '$price' },
           minPrice: { $min: '$price' },
           maxPrice: { $min: '$price' },
