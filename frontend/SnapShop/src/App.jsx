@@ -17,13 +17,12 @@ function App() {
           <Route index element={<Navigate replace to="home" />} />
           <Route path="home" element={<Home />} />
           <Route path="products" element={<Products />} />
-          <Route path="login" element={<Login />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="product/:id" element={<Checkout />} />\
-          <Route path="signup" component={Signup} />
-          <Route path="account" component={Account} />
-          <Route path="cart" component={Cart} />
+          <Route path="account" component={<Account />} />
+          <Route path="cart" component={<Cart />} />
         </Route>
+        <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
