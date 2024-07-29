@@ -1,9 +1,5 @@
-function Profile() {
-    return (
-        <div>
-            Account
-        </div>
-    )
+function Account() {
+  return <div>HUhj</div>;
 }
 
-export default Profile
+export default Account;

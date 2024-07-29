@@ -14,11 +14,11 @@ const router = express.Router();
 
 router.route('/product-stats').get(getProductStats);
 router.route('/top-5-cheap').get(aliasTopProducts, getAllProducts);
-router.route('/').get(protect, getAllProducts).post(createProduct);
+router.route('/').get(getAllProducts).post(createProduct);
 router
   .route('/:id')
   .get(getProduct)
-  .put(updateProduct)
+  .put(protect, restrictTo('seller', 'admin'), updateProduct)
   .delete(protect, restrictTo('seller', 'admin'), deleteProduct);
 
 module.exports = router;

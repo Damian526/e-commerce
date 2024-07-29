@@ -56,12 +56,21 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!',
+exports.getMe = catchAsync(async (req, res, next) => {
+  // req.user is already set in the protect middleware
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new AppError('No user found with this ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
   });
-};
+});
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
