@@ -1,5 +1,5 @@
 function Account() {
-  return <div>HUhj</div>;
+  return <div>Account</div>;
 }
 
 export default Account;

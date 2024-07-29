@@ -27,3 +27,19 @@ export async function getCurrentUser() {
     );
   }
 }
+
+export const signup = async ({ name, email, password, passwordConfirm }) => {
+  try {
+    console.log(name, email, password, passwordConfirm);
+    const response = await axiosInstance.post("/users/signup", {
+      name,
+      email,
+      password,
+      passwordConfirm,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Signup error:", error.response?.data || error.message);
+    throw error;
+  }
+};
