@@ -1,7 +1,7 @@
 import { GiArchiveRegister } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useSignup } from "./../hooks/useSignup"; // Adjust the import path
+import { useSignup } from "./../hooks/useSignup"; 
 import { toast } from "react-hot-toast";
 
 function Signup() {
