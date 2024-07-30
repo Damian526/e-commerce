@@ -17,7 +17,7 @@ const HeroSection = () => {
               this week
             </h3>
             <Link
-              to="/product/6"
+              to="/product/6697c706a89e766f5a4fe7ce"
               data-test="hero-btn"
               className="inline-block bg-white rounded-md px-6 py-3 hover:bg-blue-500 hover:text-white"
             >

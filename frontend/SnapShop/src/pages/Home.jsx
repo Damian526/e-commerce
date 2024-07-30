@@ -5,15 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchLatestProducts } from "../services/apiProduct";
 
-/* const fetchLatestProducts = async () => {
-  const { data } = await axios.get(
-    "http://localhost:8000/api/v1/products?sort=-addedAt&limit=10",
-  );
-  console.log("Fetched Products:", data); // Log to check the structure
-  return data.data.products;
-}; */
+
 const Home = () => {
-  // Use the useQuery hook with the correct object syntax
+  
   const {
     data: newProducts,
     error,

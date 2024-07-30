@@ -5,22 +5,22 @@ import FeatureCard from "./FeatureCard";
 
 const data = [
   {
-    icon: <TbTruckDelivery className="text-4xl dark:text-white" />,
+    icon: <TbTruckDelivery className="text-4xl text-white" />,
     title: "Free Delivery",
     desc: "Orders from all items",
   },
   {
-    icon: <RiRefund2Fill className="text-4xl dark:text-white" />,
+    icon: <RiRefund2Fill className="text-4xl text-white" />,
     title: "Return & Refund",
     desc: "Money back guarantee",
   },
   {
-    icon: <TbDiscount className="text-4xl dark:text-white" />,
+    icon: <TbDiscount className="text-4xl text-white" />,
     title: "Member Discount",
     desc: "On order over $99",
   },
   {
-    icon: <MdSupportAgent className="text-4xl dark:text-white" />,
+    icon: <MdSupportAgent className="text-4xl text-white" />,
     title: "Support 24/7",
     desc: "Contact us 24 hours a day",
   },

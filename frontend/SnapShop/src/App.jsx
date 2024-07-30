@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AuthInitializer from "./ui/AuthInitializer";
+import ProductDetails from "./pages/ProductDetails";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
@@ -36,7 +37,7 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="products" element={<Products />} />
               <Route path="checkout" element={<Checkout />} />
-              <Route path="product/:id" element={<Checkout />} />
+              <Route path="product/:id" element={<ProductDetails />} />
               <Route
                 path="account"
                 element={

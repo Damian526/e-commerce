@@ -4,11 +4,10 @@ import Navbar from "./Navbar";
 
 function AppLayout() {
   return (
-    <div>
+    <div className="bg-slate-600">
       <Navbar />
       <div>
         <main className="max-w-7xl mx-auto">
-          <p>App layout</p>
           <Outlet />
         </main>
       </div>
