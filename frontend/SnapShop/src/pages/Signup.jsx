@@ -17,10 +17,10 @@ function Signup() {
       return;
     }
 
-    console.log("Submitting form:", data); // Debugging log
+    console.log("Submitting form:", data); 
 
     signup(
-      { name, email, password, passwordConfirm }, // Ensure this matches the backend expectations
+      { name, email, password, passwordConfirm }, 
       {
         onSettled: () => reset(),
       },

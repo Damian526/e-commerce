@@ -9,6 +9,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
+const cartRouter = require('./routes/cartRoutes');
 const app = express();
 const cors = require('cors');
 
@@ -61,6 +62,7 @@ app.use(
 // 3) ROUTES
 app.use('/api/v1/products', productRouter); // ends code here if there is correct route
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/cart', cartRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
