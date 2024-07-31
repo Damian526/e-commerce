@@ -1,9 +1,24 @@
 import { Link } from "react-router-dom";
 import { BsSearch, BsCart } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
+import { useState } from "react";
+import { useUser } from "../hooks/useUser";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Navbar() {
-  const username = ""; // Replace with your actual username logic
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { user, isAuthenticated } = useUser();
+  const queryClient = useQueryClient();
+
+  const handleLogout = () => {
+    // Clear local storage and reset query data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    queryClient.removeQueries(["user"]);
+    console.log("User logged out");
+  };
+
+  const userName = user?.data?.user?.name;
 
   return (
     <header className="py-4 bg-slate-800 sticky top-0 z-10 shadow-lg font-karla">
@@ -45,28 +60,49 @@ function Navbar() {
             <Link to="/categories" className="text-xl font-bold">
               Categories
             </Link>
-            <div className="flex items-center gap-2">
-              {username !== "" ? (
-                <img
-                  src="https://robohash.org/Terry.png?set=set4"
-                  alt="User Avatar"
-                  className="w-6"
-                />
+            <div className="relative">
+              {isAuthenticated ? (
+                <div
+                  className="flex items-center gap-2 cursor-pointer"
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
+                  <img
+                    src="https://robohash.org/Terry.png?set=set4"
+                    alt="User Avatar"
+                    className="w-6 h-6 rounded-full"
+                  />
+                  <span>{userName || "User"}</span>
+                  {menuOpen && (
+                    <div className="absolute top-10 right-0 bg-slate-700 rounded-lg shadow-lg py-2">
+                      <Link
+                        to="/account"
+                        className="block px-4 py-2 text-white hover:bg-slate-600"
+                      >
+                        Account
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block px-4 py-2 text-white hover:bg-slate-600 w-full text-left"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
-                <FaUser className=" text-2xl text-white" />
+                <Link
+                  to="/login"
+                  className="text-xl font-bold flex items-center gap-2"
+                >
+                  <FaUser className="text-2xl text-white" />
+                  Login
+                </Link>
               )}
-              <div className="text-white text-2xl">
-                {username === "" && (
-                  <Link to="/login" className="text-xl font-bold">
-                    Login
-                  </Link>
-                )}
-              </div>
             </div>
             <div className="relative">
               <Link
                 to="/cart"
-                className="text-2xl  text-white"
+                className="text-2xl text-white"
                 aria-label="View Cart"
               >
                 <BsCart />

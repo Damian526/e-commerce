@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddToCartButton from "../ui/AddToCartButton";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -44,6 +45,9 @@ const ProductDetails = () => {
           <div className="mt-2">
             <h2 className="font-bold">About the product</h2>
             <p className="leading-5">{product?.description}</p>
+          </div>
+          <div className="mt-4">
+            <AddToCartButton productId={product.id} />{" "}
           </div>
         </div>
       </div>

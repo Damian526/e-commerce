@@ -1,13 +1,14 @@
-/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
+import AddToCartButton from "./AddToCartButton"; 
 
+// eslint-disable-next-line react/prop-types
 const ProductCard = ({ id, category, title, price, rating }) => {
   return (
     <div className="bg-slate-700 rounded-lg shadow-md overflow-hidden">
       <Link to={`/product/${id}`} className="block">
         <img
-          src={`https://via.placeholder.com/150`} 
+          src={`https://via.placeholder.com/150`}
           alt={title}
           className="w-full h-48 object-cover"
         />
@@ -20,6 +21,9 @@ const ProductCard = ({ id, category, title, price, rating }) => {
           </div>
           <div className="mt-2">
             <span className="font-bold text-xl text-white">${price}</span>
+          </div>
+          <div className="mt-4">
+            <AddToCartButton productId={id} /> {/* Add the button here */}
           </div>
         </div>
       </Link>

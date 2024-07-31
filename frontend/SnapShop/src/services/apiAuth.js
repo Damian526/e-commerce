@@ -20,7 +20,6 @@ export async function getCurrentUser() {
       },
     });
     console.log(response);
-    return response.data;
   } catch (error) {
     throw new Error(
       error.response?.data?.message || "Error fetching user data",

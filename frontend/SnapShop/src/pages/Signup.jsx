@@ -1,7 +1,7 @@
 import { GiArchiveRegister } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useSignup } from "./../hooks/useSignup"; 
+import { useSignup } from "./../hooks/useSignup";
 import { toast } from "react-hot-toast";
 
 function Signup() {
@@ -17,10 +17,8 @@ function Signup() {
       return;
     }
 
-    console.log("Submitting form:", data); 
-
     signup(
-      { name, email, password, passwordConfirm }, 
+      { name, email, password, passwordConfirm },
       {
         onSettled: () => reset(),
       },
