@@ -9,21 +9,20 @@ export function useLogin() {
 
   const { mutate: login, isLoading } = useMutation({
     mutationFn: loginApi,
-    onSuccess: (response) => {
+    onSuccess: (response, { rememberMe }) => {
       const { token, data } = response;
-      const user = data?.user;
+      const user = data?.user || data; 
 
-      // Store the token and user data in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      if (rememberMe) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
 
-      // Update the user data in the query cache
       queryClient.setQueryData(["user"], user);
-
-      // Navigate to the dashboard
       navigate("/home", { replace: true });
-
-      // Show a success toast notification
       toast.success("Login successful!");
     },
     onError: (err) => {

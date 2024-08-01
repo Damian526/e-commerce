@@ -7,17 +7,19 @@ import { RiLockPasswordFill, RiUser3Fill } from "react-icons/ri";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const { login, isLoading } = useLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) return;
     login(
-      { email, password },
+      { email, password, rememberMe },
       {
         onSettled: () => {
           setEmail("");
           setPassword("");
+          setRememberMe(false);
         },
       },
     );
@@ -68,7 +70,13 @@ function Login() {
             <RiLockPasswordFill className="absolute top-3 left-2 text-lg" />
           </div>
           <div className="flex items-center">
-            <input type="checkbox" id="rememberMe" className="mr-2" />
+            <input
+              type="checkbox"
+              id="rememberMe"
+              className="mr-2"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
             <label htmlFor="rememberMe">Remember Me</label>
           </div>
           <button

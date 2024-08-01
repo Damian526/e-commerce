@@ -11,14 +11,16 @@ function Navbar() {
   const queryClient = useQueryClient();
 
   const handleLogout = () => {
-    // Clear local storage and reset query data
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     queryClient.removeQueries(["user"]);
     console.log("User logged out");
   };
 
-  const userName = user?.name;
+  // Access userName consistently
+  const userName = user?.name || user?.data?.user?.name;
 
   return (
     <header className="py-4 bg-slate-800 sticky top-0 z-10 shadow-lg font-karla">

@@ -19,7 +19,7 @@ export async function getCurrentUser() {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response);
+    return response.data;
   } catch (error) {
     throw new Error(
       error.response?.data?.message || "Error fetching user data",
