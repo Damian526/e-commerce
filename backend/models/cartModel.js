@@ -27,11 +27,14 @@ const cartSchema = new mongoose.Schema({
 });
 
 // Calculate total price before saving the cart
-cartSchema.pre('save', function (next) {
-  this.total = this.items.reduce(
-    (acc, item) => acc + item.quantity * item.product.price,
-    0,
-  );
+cartSchema.pre('save', async function (next) {
+  if (this.isModified('items')) {
+    await this.populate('items.product');
+    this.total = this.items.reduce(
+      (acc, item) => acc + item.quantity * item.product.price,
+      0,
+    );
+  }
   next();
 });
 

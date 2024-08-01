@@ -16,6 +16,7 @@ import ProtectedRoute from "./ui/ProtectedRoute";
 import AuthInitializer from "./ui/AuthInitializer";
 import ProductDetails from "./pages/ProductDetails";
 
+
 // Create QueryClient instance
 const queryClient = new QueryClient({
   defaultOptions: {

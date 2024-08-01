@@ -18,7 +18,7 @@ function Navbar() {
     console.log("User logged out");
   };
 
-  const userName = user?.data?.user?.name;
+  const userName = user?.name;
 
   return (
     <header className="py-4 bg-slate-800 sticky top-0 z-10 shadow-lg font-karla">

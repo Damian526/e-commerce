@@ -76,7 +76,6 @@ exports.updateCartItem = catchAsync(async (req, res, next) => {
     },
   });
 });
-
 exports.removeFromCart = catchAsync(async (req, res, next) => {
   const { productId } = req.body;
 
