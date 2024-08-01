@@ -59,9 +59,7 @@ function Navbar() {
             <Link to="/products" className="text-xl font-bold">
               Products
             </Link>
-            <Link to="/categories" className="text-xl font-bold">
-              Categories
-            </Link>
+
             <div className="relative">
               {isAuthenticated ? (
                 <div

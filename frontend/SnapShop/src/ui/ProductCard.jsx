@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
-import AddToCartButton from "./AddToCartButton"; 
+import AddToCartButton from "./AddToCartButton";
 
 // eslint-disable-next-line react/prop-types
 const ProductCard = ({ id, category, title, price, rating }) => {

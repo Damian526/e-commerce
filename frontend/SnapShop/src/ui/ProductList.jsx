@@ -1,13 +1,10 @@
-/* eslint-disable react/prop-types */
-
 import ProductCard from "./ProductCard";
 
+/* eslint-disable react/prop-types */
 const ProductList = ({ title, products }) => (
-  <div className="container mt-8 mx-auto px-4 bg-slate-800">
+  <div className="container  mx-auto px-4 bg-slate-800">
     <div className="sm:flex items-center justify-between">
-      <h2 className="text-4xl font-medium font-lora text-white">
-        {title}
-      </h2>
+      <h2 className="text-4xl font-medium font-lora text-white">{title}</h2>
     </div>
     <div
       className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4"
@@ -15,8 +12,8 @@ const ProductList = ({ title, products }) => (
     >
       {products?.map((product) => (
         <ProductCard
-          key={product.id}
-          id={product.id}
+          key={product._id}
+          id={product._id}
           category={product.category}
           title={product.name}
           price={product.price}
