@@ -49,7 +49,21 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A product must have a category'],
       enum: {
-        values: ['Electronics', 'Books', 'Clothing', 'Toys', 'Other'],
+        values: [
+          'Automotive',
+          'Books',
+          'Beauty',
+          'Clothing',
+          'Collections and art',
+          'Culture and entertainment',
+          'Electronics',
+          'Food',
+          'Health',
+          'House and garden',
+          'Sports and tourism',
+          'Toys',
+          'Other',
+        ],
         message: 'Choose matching category to the product',
       },
     },
@@ -68,6 +82,7 @@ const productSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   },
 );
+
 // document middleware: runs before .save() and .create()
 productSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
@@ -78,6 +93,11 @@ productSchema.post('save', function (doc, next) {
   console.log(doc);
   next();
 });
+
+// Static method to get all possible categories
+productSchema.statics.getCategories = function () {
+  return this.schema.path('category').enumValues;
+};
 
 const Product = mongoose.model('Product', productSchema);
 

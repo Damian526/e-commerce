@@ -11,12 +11,25 @@ export const fetchLatestProducts = async () => {
   return data.data.products;
 };
 export const fetchProducts = async (filters) => {
+  const { category, minPrice, maxPrice, sort, page = 1, limit = 8 } = filters;
   const params = {};
-  if (filters.category) params.category = filters.category;
-  if (filters.minPrice) params["price[gte]"] = filters.minPrice;
-  if (filters.maxPrice) params["price[lte]"] = filters.maxPrice;
+
+  if (category) params.category = category;
+  if (minPrice) params.price = { ...params.price, gte: minPrice };
+  if (maxPrice) params.price = { ...params.price, lte: maxPrice };
+  if (sort) params.sort = sort;
+  params.page = page;
+  params.limit = limit;
 
   const response = await axiosInstance.get("/products", { params });
-  console.log(response.data); // Log the entire response to see its structure
-  return response.data.data.products; // Adjust this line based on the actual structure of your API response
+  return {
+    products: response.data.data.products,
+    totalProducts: response.data.totalProducts,
+    results: response.data.results,
+  };
+};
+export const fetchCategories = async () => {
+  const { data } = await axiosInstance.get("/products/categories");
+  console.log(data);
+  return data;
 };

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "../services/apiProduct";
+import { fetchProducts, fetchCategories } from "../services/apiProduct";
 import ProductList from "../ui/ProductList";
+import Pagination from "../ui/Pagination"; // Import the Pagination component
 
 const Products = () => {
   const [localFilters, setLocalFilters] = useState({
@@ -14,16 +15,27 @@ const Products = () => {
     minPrice: "",
     maxPrice: "",
   });
+  const [sortOption, setSortOption] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [limit, setLimit] = useState(10);
 
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["products", filters],
-    queryFn: () => fetchProducts(filters),
+  useEffect(() => {
+    const getCategories = async () => {
+      const { data } = await fetchCategories();
+      setCategories(data.categories);
+    };
+
+    getCategories();
+  }, []);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["products", filters, sortOption, currentPage],
+    queryFn: () =>
+      fetchProducts({ ...filters, sort: sortOption, page: currentPage, limit }),
     keepPreviousData: true,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
   const handleFilterChange = (e) => {
@@ -41,28 +53,41 @@ const Products = () => {
       minPrice: localFilters.minPrice,
       maxPrice: localFilters.maxPrice,
     });
+    setCurrentPage(1); // Reset to first page when filters are applied
+  };
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching products</div>;
 
+  const totalPages = Math.ceil(data.totalProducts / limit);
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex">
-        <aside className="w-1/4 p-4 bg-slate-800 rounded-lg shadow-md mt-4">
+        <aside className="w-1/4 mt-3 p-4 bg-slate-800 rounded-lg shadow-md">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="category" className="block text-white">
                 Category:
               </label>
-              <input
+              <select
                 id="category"
                 name="category"
                 value={localFilters.category}
                 onChange={handleFilterChange}
                 className="w-full border p-2 rounded bg-white text-black"
-                placeholder="e.g., Electronics"
-              />
+              >
+                <option value="">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="mb-4">
               <label htmlFor="minPrice" className="block text-white">
@@ -99,7 +124,32 @@ const Products = () => {
           </form>
         </aside>
         <main className="w-3/4 p-4">
-          <ProductList title="Product List" products={products} />
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center space-x-2">
+              <label htmlFor="sort" className="text-white">
+                Sort By:
+              </label>
+              <select
+                id="sort"
+                name="sort"
+                value={sortOption}
+                onChange={handleSortChange}
+                className="border p-2 rounded bg-white text-black"
+              >
+                <option value="">Select...</option>
+                <option value="price">Price: Low to High</option>
+                <option value="-price">Price: High to Low</option>
+                <option value="rating">Rating: Low to High</option>
+                <option value="-rating">Rating: High to Low</option>
+              </select>
+            </div>
+          </div>
+          <ProductList title="Founded products" products={data.products} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </main>
       </div>
     </div>

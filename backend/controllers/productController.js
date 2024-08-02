@@ -13,17 +13,20 @@ exports.aliasTopProducts = (req, res, next) => {
 
 // Get all products
 exports.getAllProducts = catchAsync(async (req, res, next) => {
-  //execute query
   const features = new APIFeatures(Product.find(), req.query)
     .filter()
     .sort()
     .limitFields()
     .paginate();
   const products = await features.query;
-  //send response
+
+  // Get total number of documents for pagination
+  const totalProducts = await Product.countDocuments();
+
   res.status(200).json({
     status: 'success',
     results: products.length,
+    totalProducts,
     data: {
       products,
     },
@@ -103,6 +106,18 @@ exports.getProductStats = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       stats,
+    },
+  });
+});
+exports.getCategories = catchAsync(async (req, res, next) => {
+  const categories = Product.getCategories();
+  if (!categories) {
+    return next(new AppError('Categories not found', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      categories,
     },
   });
 });

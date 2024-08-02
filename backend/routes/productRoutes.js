@@ -9,10 +9,12 @@ const {
   deleteProduct,
   aliasTopProducts,
   getProductStats,
+  getCategories,
 } = require('../controllers/productController');
 const router = express.Router();
 
 router.route('/product-stats').get(getProductStats);
+router.route('/categories').get(getCategories);
 router.route('/top-5-cheap').get(aliasTopProducts, getAllProducts);
 router.route('/').get(getAllProducts).post(createProduct);
 router
