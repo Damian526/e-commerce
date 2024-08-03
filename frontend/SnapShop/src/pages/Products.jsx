@@ -2,24 +2,26 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts, fetchCategories } from "../services/apiProduct";
 import ProductList from "../ui/ProductList";
-import Pagination from "../ui/Pagination"; // Import the Pagination component
+import Pagination from "../ui/Pagination";
 
 const Products = () => {
   const [localFilters, setLocalFilters] = useState({
     category: "",
     minPrice: "",
     maxPrice: "",
+    discount: false,
   });
   const [filters, setFilters] = useState({
     category: "",
     minPrice: "",
     maxPrice: "",
+    discount: false,
   });
   const [sortOption, setSortOption] = useState("");
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   // eslint-disable-next-line no-unused-vars
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(8);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -39,10 +41,10 @@ const Products = () => {
   });
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setLocalFilters((prevFilters) => ({
       ...prevFilters,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -52,23 +54,26 @@ const Products = () => {
       category: localFilters.category,
       minPrice: localFilters.minPrice,
       maxPrice: localFilters.maxPrice,
+      discount: localFilters.discount,
     });
     setCurrentPage(1); // Reset to first page when filters are applied
   };
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
+    setCurrentPage(1); // Reset to first page when sort option is changed
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching products</div>;
-
+ 
   const totalPages = Math.ceil(data.totalProducts / limit);
+  
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex">
-        <aside className="w-1/4 mt-3 p-4 bg-slate-800 rounded-lg shadow-md">
+        <aside className="w-1/4 p-4 bg-slate-800 rounded-lg shadow-md">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="category" className="block text-white">
@@ -115,6 +120,21 @@ const Products = () => {
                 className="w-full border p-2 rounded bg-white text-black"
               />
             </div>
+
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="discount"
+                name="discount"
+                checked={localFilters.discount}
+                onChange={handleFilterChange}
+                className="w-4 h-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label htmlFor="discount" className="ml-2 text-white">
+                Discount
+              </label>
+            </div>
+
             <button
               type="submit"
               className="w-full bg-blue-500 text-white p-2 rounded"
@@ -136,11 +156,13 @@ const Products = () => {
                 onChange={handleSortChange}
                 className="border p-2 rounded bg-white text-black"
               >
-                <option value="">Select...</option>
+                <option value="">Default</option>
                 <option value="price">Price: Low to High</option>
                 <option value="-price">Price: High to Low</option>
                 <option value="rating">Rating: Low to High</option>
                 <option value="-rating">Rating: High to Low</option>
+                <option value="-addedAt">Oldest to newest</option>
+                <option value="addedAt">Oldest to newest</option>
               </select>
             </div>
           </div>

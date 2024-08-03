@@ -11,22 +11,35 @@ exports.aliasTopProducts = (req, res, next) => {
   next();
 };
 
-// Get all products
 exports.getAllProducts = catchAsync(async (req, res, next) => {
+  // Create a copy of req.query to use for the filtered count query
+  const queryObj = { ...req.query };
+
+  // Exclude pagination parameters from the count query
+  const excludedFields = ['page', 'sort', 'limit', 'fields'];
+  excludedFields.forEach((el) => delete queryObj[el]);
+
+  // Create a separate query to count the total number of filtered products
+  const countFeatures = new APIFeatures(Product.find(), queryObj)
+    .filter()
+    .sort()
+    .limitFields();
+
+  const totalFilteredProducts = await countFeatures.query.countDocuments();
+
+  // Apply pagination and other features to the main query
   const features = new APIFeatures(Product.find(), req.query)
     .filter()
     .sort()
     .limitFields()
     .paginate();
-  const products = await features.query;
 
-  // Get total number of documents for pagination
-  const totalProducts = await Product.countDocuments();
+  const products = await features.query;
 
   res.status(200).json({
     status: 'success',
     results: products.length,
-    totalProducts,
+    totalProducts: totalFilteredProducts, // Return the count of filtered products
     data: {
       products,
     },

@@ -1,8 +1,8 @@
+/* eslint-disable react/prop-types */
 import ProductCard from "./ProductCard";
 
-/* eslint-disable react/prop-types */
 const ProductList = ({ title, products }) => (
-  <div className="container  mx-auto px-4 bg-slate-800">
+  <div className="container mx-auto px-4 bg-slate-800">
     <div className="sm:flex items-center justify-between">
       <h2 className="text-4xl font-medium font-karla text-white">{title}</h2>
     </div>
@@ -17,8 +17,8 @@ const ProductList = ({ title, products }) => (
           category={product.category}
           title={product.name}
           price={product.price}
+          priceDiscount={product.priceDiscount}
           rating={product.rating}
-         
         />
       ))}
     </div>

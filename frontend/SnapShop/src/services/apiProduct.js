@@ -11,13 +11,23 @@ export const fetchLatestProducts = async () => {
   return data.data.products;
 };
 export const fetchProducts = async (filters) => {
-  const { category, minPrice, maxPrice, sort, page = 1, limit = 8 } = filters;
+  const {
+    category,
+    minPrice,
+    maxPrice,
+    sort,
+    page,
+    limit,
+    discount,
+  } = filters;
   const params = {};
 
   if (category) params.category = category;
   if (minPrice) params.price = { ...params.price, gte: minPrice };
   if (maxPrice) params.price = { ...params.price, lte: maxPrice };
   if (sort) params.sort = sort;
+  if (discount) params["priceDiscount[gte]"] = 0;
+
   params.page = page;
   params.limit = limit;
 
