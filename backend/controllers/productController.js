@@ -1,4 +1,3 @@
-// controllers/productController.js
 const Product = require('../models/modelProduct');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
@@ -22,6 +21,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   // Create a separate query to count the total number of filtered products
   const countFeatures = new APIFeatures(Product.find(), queryObj)
     .filter()
+    .search()
     .sort()
     .limitFields();
 
@@ -30,6 +30,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   // Apply pagination and other features to the main query
   const features = new APIFeatures(Product.find(), req.query)
     .filter()
+    .search()
     .sort()
     .limitFields()
     .paginate();
@@ -50,12 +51,14 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 exports.getProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return next(new AppError(`Hasn't found with that ID`, 404));
+    return next(new AppError(`Product not found with that ID`, 404));
   }
-  if (!product) {
-    return res.status(404).json({ message: 'Product not found' });
-  }
-  res.json(product);
+  res.json({
+    status: 'success',
+    data: {
+      product,
+    },
+  });
 });
 
 // Create a new product
@@ -77,7 +80,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     { new: true, runValidators: true },
   );
   if (!updatedProduct) {
-    return next(new AppError(`Hasn't found with that ID`, 404));
+    return next(new AppError(`Product not found with that ID`, 404));
   }
   res.status(200).json({
     status: 'success',
@@ -91,10 +94,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.id);
   if (!product) {
-    return next(new AppError(`Hasn't found with that ID`, 404));
-  }
-  if (!product) {
-    return res.status(404).json({ message: 'Product not found' });
+    return next(new AppError(`Product not found with that ID`, 404));
   }
   res.status(204).json({ message: 'Product deleted successfully' });
 });
@@ -105,12 +105,12 @@ exports.getProductStats = catchAsync(async (req, res, next) => {
     {
       $group: {
         _id: { $toUpper: '$category' },
-        numTours: { $sum: 1 },
+        numProducts: { $sum: 1 },
         avgRating: { $avg: '$rating' },
         numRatings: { $sum: '$ratingsNumber' },
         avgPrice: { $avg: '$price' },
         minPrice: { $min: '$price' },
-        maxPrice: { $min: '$price' },
+        maxPrice: { $max: '$price' },
       },
     },
     { $sort: { avgPrice: 1 } },
@@ -122,6 +122,7 @@ exports.getProductStats = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 exports.getCategories = catchAsync(async (req, res, next) => {
   const categories = Product.getCategories();
   if (!categories) {

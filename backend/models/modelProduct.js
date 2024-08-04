@@ -6,7 +6,6 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'A product must have a name'],
-
       trim: true,
       minlength: [
         2,
@@ -38,7 +37,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
       min: [1, 'Rating must be above 1.0'],
-      max: [5, 'Rating must be above 5.0'],
+      max: [5, 'Rating must be below 5.0'],
     },
     ratingsNumber: { type: Number, default: 0 },
     imageUrl: {
@@ -89,15 +88,13 @@ productSchema.pre('save', function (next) {
   next();
 });
 
-productSchema.post('save', function (doc, next) {
-  console.log(doc);
-  next();
-});
-
 // Static method to get all possible categories
 productSchema.statics.getCategories = function () {
   return this.schema.path('category').enumValues;
 };
+
+// Creating text index
+productSchema.index({ name: 'text', description: 'text' });
 
 const Product = mongoose.model('Product', productSchema);
 
