@@ -1,4 +1,4 @@
-// eslint-disable-next-line react/prop-types
+import PropTypes from "prop-types";
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
@@ -36,6 +36,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       </button>
     </div>
   );
+};
+Pagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;

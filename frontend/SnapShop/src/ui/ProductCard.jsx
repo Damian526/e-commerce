@@ -8,7 +8,7 @@ const ProductCard = ({ id, category, title, price, priceDiscount, rating }) => {
   const discountPercentage = priceDiscount
     ? ((price - priceDiscount) / price) * 100
     : 0;
-
+  
   return (
     <div className="bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col">
       <Link to={`/product/${id}`} className="block">

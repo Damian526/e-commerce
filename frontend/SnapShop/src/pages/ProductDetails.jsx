@@ -1,35 +1,31 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import AddToCartButton from "../ui/AddToCartButton";
+import { fetchProductDetails } from "../services/apiProduct";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  console.log(id);
-  const [product, setProduct] = useState(null);
-  console.log(product);
 
-  useEffect(() => {
-    const fetchProductDetails = () => {
-      fetch(`http://localhost:8000/api/v1/products/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProduct(data);
-        });
-    };
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["productDetails", id],
+    queryFn: () => fetchProductDetails(id),
+    retry: false, // Disable automatic retries
+  });
 
-    fetchProductDetails();
-  }, [id]);
-  if (!product) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  console.log(data);
+  const product = data.product;
+
   return (
-    <div className="container mx-auto pt-8 text-white bg-slate-600  ">
+    <div className="container mx-auto pt-8 text-white bg-slate-600">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-4 font-karla">
         <div className="space-y-2">Photo</div>
         <div className="px-2">
           <h2 className="text-2xl">{product?.title}</h2>
           {product?.rating && (
-            <div className="mt-2">Rating: {product.rating}</div>
+            <div className="mt-2">Rating: {product?.rating}</div>
           )}
-
           <table className="mt-2">
             <tbody>
               <tr>
@@ -47,7 +43,7 @@ const ProductDetails = () => {
             <p className="leading-5">{product?.description}</p>
           </div>
           <div className="mt-4">
-            <AddToCartButton productId={product.id} />{" "}
+            <AddToCartButton productId={product?.id} />
           </div>
         </div>
       </div>

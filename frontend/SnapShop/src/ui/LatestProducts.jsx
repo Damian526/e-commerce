@@ -1,9 +1,11 @@
-import ProductList from './ProductList';
+import ProductList from "./ProductList";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const LatestProducts = ({ products }) => {
   if (!products) return <div>No products available</div>;
   return <ProductList title="New Arrivals" products={products} />;
 };
-
+LatestProducts.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.object).isRequired, // Assuming `products` is an array of objects
+};
 export default LatestProducts;

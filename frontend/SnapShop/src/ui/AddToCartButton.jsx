@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+// import PropTypes from "prop-types";
 
 const addToCart = async (productId) => {
   const token = localStorage.getItem("token"); // Retrieve the token from localStorage
@@ -46,5 +47,7 @@ const AddToCartButton = ({ productId }) => {
     </button>
   );
 };
-
+/* AddToCartButton.propTypes = {
+  productId: PropTypes.string.isRequired,
+}; */
 export default AddToCartButton;
