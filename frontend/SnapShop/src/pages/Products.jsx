@@ -3,8 +3,18 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProducts, fetchCategories } from "../services/apiProduct";
 import ProductList from "../ui/ProductList";
 import Pagination from "../ui/Pagination";
+import { useLocation } from "react-router-dom";
+
+// Helper function to get query parameters from the URL
+const useQueryParams = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const Products = () => {
+  const queryParams = useQueryParams();
+  const searchQuery = queryParams.get("search") || "";
+  
+
   const [localFilters, setLocalFilters] = useState({
     category: "",
     minPrice: "",
@@ -33,9 +43,15 @@ const Products = () => {
   }, []);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["products", filters, sortOption, currentPage],
+    queryKey: ["products", filters, sortOption, currentPage, searchQuery],
     queryFn: () =>
-      fetchProducts({ ...filters, sort: sortOption, page: currentPage, limit }),
+      fetchProducts({
+        ...filters,
+        sort: sortOption,
+        page: currentPage,
+        limit,
+        search: searchQuery,
+      }),
     keepPreviousData: true,
     staleTime: 5 * 60 * 1000,
   });
@@ -56,19 +72,18 @@ const Products = () => {
       maxPrice: localFilters.maxPrice,
       discount: localFilters.discount,
     });
-    setCurrentPage(1); // Reset to first page when filters are applied
+    setCurrentPage(1);
   };
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
-    setCurrentPage(1); // Reset to first page when sort option is changed
+    setCurrentPage(1);
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching products</div>;
- 
+
   const totalPages = Math.ceil(data.totalProducts / limit);
-  
 
   return (
     <div className="container mx-auto p-4">

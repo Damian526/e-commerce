@@ -11,13 +11,17 @@ export const fetchLatestProducts = async () => {
   return data.data.products;
 };
 export const fetchProducts = async (filters) => {
-  const { category, minPrice, maxPrice, sort, page, limit, discount } = filters;
+  const { category, minPrice, maxPrice, sort, page, limit, discount, search } =
+    filters;
   const params = {};
-
+  console.log(filters);
   if (category) params.category = category;
   if (minPrice) params.price = { ...params.price, gte: minPrice };
   if (maxPrice) params.price = { ...params.price, lte: maxPrice };
   if (sort) params.sort = sort;
+  if (search) {
+    params.search = search;
+  }
   if (discount) params["priceDiscount[gte]"] = 0;
 
   params.page = page;
@@ -40,4 +44,11 @@ export const fetchProductDetails = async (id) => {
   const data = await axiosInstance.get(`/products/${id}`);
 
   return data.data.data;
+};
+
+export const fetchProductsByQuery = async (searchTerm) => {
+  if (!searchTerm) return { data: { products: [] } };
+  const data = await axiosInstance.get(`/products?search=${searchTerm}`);
+ 
+  return data.data;
 };
