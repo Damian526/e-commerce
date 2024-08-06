@@ -10,6 +10,6 @@ export function useUser() {
     queryKey: ["user"],
     queryFn: getCurrentUser,
   });
-  console.log("Fetched user:", user);
+  
   return { isLoading, user, isAuthenticated: !!user, error };
 }
