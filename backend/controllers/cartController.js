@@ -13,9 +13,7 @@ exports.getCart = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      cart,
-    },
+    data: { cart },
   });
 });
 
@@ -47,9 +45,7 @@ exports.addToCart = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      cart,
-    },
+    data: { cart },
   });
 });
 
@@ -71,11 +67,10 @@ exports.updateCartItem = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      cart,
-    },
+    data: { cart },
   });
 });
+
 exports.removeFromCart = catchAsync(async (req, res, next) => {
   const { productId } = req.body;
 
@@ -91,8 +86,6 @@ exports.removeFromCart = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      cart,
-    },
+    data: { cart },
   });
 });

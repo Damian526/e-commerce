@@ -1,15 +1,14 @@
 const express = require('express');
-const cartController = require('../controllers/cartController');
+const cartController = require('../controllers/CartController');
 const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router.use(authController.protect);
 
+router.route('/').get(cartController.getCart).post(cartController.addToCart);
 router
-  .route('/')
-  .get(cartController.getCart)
-  .post(cartController.addToCart)
+  .route('/item')
   .patch(cartController.updateCartItem)
   .delete(cartController.removeFromCart);
 

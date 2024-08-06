@@ -17,7 +17,6 @@ function Navbar() {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
     queryClient.removeQueries(["user"]);
-    console.log("User logged out");
   };
 
   const userName = user?.name || user?.data?.user?.name;

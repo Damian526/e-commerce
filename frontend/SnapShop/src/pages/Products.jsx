@@ -178,11 +178,12 @@ const Products = () => {
               onChange={handleSortChange}
               className="w-full px-4 py-2 bg-white text-black rounded-lg"
             >
-              <option value="">Relevance</option>
-              <option value="priceAsc">Price: Low to High</option>
-              <option value="priceDesc">Price: High to Low</option>
-              <option value="nameAsc">Name: A to Z</option>
-              <option value="nameDesc">Name: Z to A</option>
+              <option value="">Default</option>
+              <option value="price">Price: Low to High</option>
+              <option value="-price">Price: High to Low</option>
+              <option value="name">Name: A to Z</option>
+              <option value="addedAt">Oldest to latest</option>
+              <option value="-addedAt">Latest to oldest</option>
             </select>
           </div>
           <ProductList products={data.products} />
