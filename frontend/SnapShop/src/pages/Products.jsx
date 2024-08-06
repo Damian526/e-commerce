@@ -13,7 +13,6 @@ const useQueryParams = () => {
 const Products = () => {
   const queryParams = useQueryParams();
   const searchQuery = queryParams.get("search") || "";
-  
 
   const [localFilters, setLocalFilters] = useState({
     category: "",
@@ -87,31 +86,37 @@ const Products = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex">
-        <aside className="w-1/4 p-4 bg-slate-800 rounded-lg shadow-md">
+      <div className="flex flex-col lg:flex-row">
+        <aside className="w-full lg:w-1/4 p-4 bg-slate-800 rounded-lg shadow-md mb-4 lg:mb-0">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="category" className="block text-white">
-                Category:
+              <label
+                htmlFor="category"
+                className="block text-white font-semibold mb-2"
+              >
+                Category
               </label>
               <select
                 id="category"
                 name="category"
                 value={localFilters.category}
                 onChange={handleFilterChange}
-                className="w-full border p-2 rounded bg-white text-black"
+                className="w-full px-4 py-2 bg-white text-black rounded-lg"
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.id} value={category.id}>
+                    {category.name}
                   </option>
                 ))}
               </select>
             </div>
             <div className="mb-4">
-              <label htmlFor="minPrice" className="block text-white">
-                Min Price:
+              <label
+                htmlFor="minPrice"
+                className="block text-white font-semibold mb-2"
+              >
+                Min Price
               </label>
               <input
                 type="number"
@@ -119,12 +124,15 @@ const Products = () => {
                 name="minPrice"
                 value={localFilters.minPrice}
                 onChange={handleFilterChange}
-                className="w-full border p-2 rounded bg-white text-black"
+                className="w-full px-4 py-2 bg-white text-black rounded-lg"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="maxPrice" className="block text-white">
-                Max Price:
+              <label
+                htmlFor="maxPrice"
+                className="block text-white font-semibold mb-2"
+              >
+                Max Price
               </label>
               <input
                 type="number"
@@ -132,56 +140,52 @@ const Products = () => {
                 name="maxPrice"
                 value={localFilters.maxPrice}
                 onChange={handleFilterChange}
-                className="w-full border p-2 rounded bg-white text-black"
+                className="w-full px-4 py-2 bg-white text-black rounded-lg"
               />
             </div>
-
-            <div className="flex items-center mb-4">
+            <div className="mb-4 flex items-center">
               <input
                 type="checkbox"
                 id="discount"
                 name="discount"
                 checked={localFilters.discount}
                 onChange={handleFilterChange}
-                className="w-4 h-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
+                className="mr-2"
               />
-              <label htmlFor="discount" className="ml-2 text-white">
-                Discount
+              <label htmlFor="discount" className="text-white font-semibold">
+                On Sale
               </label>
             </div>
-
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded"
+              className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg"
             >
-              Filter
+              Apply Filters
             </button>
           </form>
         </aside>
-        <main className="w-3/4 p-4">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center space-x-2">
-              <label htmlFor="sort" className="text-white">
-                Sort By:
-              </label>
-              <select
-                id="sort"
-                name="sort"
-                value={sortOption}
-                onChange={handleSortChange}
-                className="border p-2 rounded bg-white text-black"
-              >
-                <option value="">Default</option>
-                <option value="price">Price: Low to High</option>
-                <option value="-price">Price: High to Low</option>
-                <option value="rating">Rating: Low to High</option>
-                <option value="-rating">Rating: High to Low</option>
-                <option value="-addedAt">Oldest to newest</option>
-                <option value="addedAt">Oldest to newest</option>
-              </select>
-            </div>
+        <main className="w-full lg:w-3/4 p-4">
+          <div className="mb-4">
+            <label
+              htmlFor="sortOption"
+              className="block text-white font-semibold mb-2"
+            >
+              Sort By
+            </label>
+            <select
+              id="sortOption"
+              value={sortOption}
+              onChange={handleSortChange}
+              className="w-full px-4 py-2 bg-white text-black rounded-lg"
+            >
+              <option value="">Relevance</option>
+              <option value="priceAsc">Price: Low to High</option>
+              <option value="priceDesc">Price: High to Low</option>
+              <option value="nameAsc">Name: A to Z</option>
+              <option value="nameDesc">Name: Z to A</option>
+            </select>
           </div>
-          <ProductList title="Founded products" products={data.products} />
+          <ProductList products={data.products} />
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

@@ -11,7 +11,7 @@ const Cart = () => {
     const fetchCart = async () => {
       try {
         const res = await axiosInstance.get("/cart");
-        setCart(res.data.data.cart); // Update this line to match the structure of the response
+        setCart(res.data.data.cart); 
       } catch (error) {
         console.error(
           "Error fetching cart:",

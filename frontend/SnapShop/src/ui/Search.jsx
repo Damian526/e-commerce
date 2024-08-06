@@ -5,17 +5,6 @@ import { BsSearch } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchProductsByQuery } from "../services/apiProduct";
 
-/* const fetchProducts = async (searchTerm) => {
-  if (!searchTerm) return { data: { products: [] } };
-  const res = await fetch(
-    `http://localhost:8000/api/v1/products?search=${searchTerm}`,
-  );
-  if (!res.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return res.json();
-}; */
-
 const Search = () => {
   const [query, setQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -86,7 +75,7 @@ const Search = () => {
   }, [data]);
 
   return (
-    <div className="w-full max-w-[500px] relative flex">
+    <div className="w-full max-w-full md:max-w-[500px] relative flex">
       <form className="flex w-full" onSubmit={(e) => e.preventDefault()}>
         <label htmlFor="search" className="sr-only">
           Search for a product
@@ -98,29 +87,29 @@ const Search = () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Search for a product..."
-          className="border-2 border-blue-500 px-6 py-2 w-full text-black md:text-white dark:bg-slate-800"
+          className="border-2 border-blue-500 px-4 md:px-6 py-2 w-full text-black md:text-white dark:bg-slate-800"
         />
         <button
           type="button"
           onClick={handleSearchClick}
-          className="bg-blue-500 text-white text-[26px] grid place-items-center px-4"
+          className="bg-blue-500 text-white text-[24px] md:text-[26px] grid place-items-center px-2 md:px-4"
           aria-label="Search"
         >
           <BsSearch />
         </button>
       </form>
       {isLoading && (
-        <div className="absolute bg-gray-800 text-white p-4 rounded shadow-lg top-full mt-2 w-full">
+        <div className="absolute bg-gray-800 text-white p-2 md:p-4 rounded shadow-lg top-full mt-2 w-full">
           Loading...
         </div>
       )}
       {error && (
-        <div className="absolute bg-gray-800 text-white p-4 rounded shadow-lg top-full mt-2 w-full">
+        <div className="absolute bg-gray-800 text-white p-2 md:p-4 rounded shadow-lg top-full mt-2 w-full">
           Error: {error.message}
         </div>
       )}
       {data && data.data.products.length > 0 && isDropdownVisible && (
-        <div className="absolute bg-gray-800 text-white p-4 rounded shadow-lg top-full mt-2 w-full">
+        <div className="absolute bg-gray-800 text-white p-2 md:p-4 rounded shadow-lg top-full mt-2 w-full">
           {data.data.products.map((product, index) => (
             <Link
               to={`/product/${product.id}`}
@@ -132,7 +121,7 @@ const Search = () => {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="w-12 h-12 object-cover rounded mr-2"
+                  className="w-8 h-8 md:w-12 md:h-12 object-cover rounded mr-2"
                 />
                 <div>
                   <div className="font-semibold">{product.name}</div>
