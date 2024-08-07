@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const compression = require('compression');
 const hpp = require('hpp');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -12,6 +13,7 @@ const userRouter = require('./routes/userRoutes');
 const cartRouter = require('./routes/cartRoutes');
 const app = express();
 const cors = require('cors');
+
 
 // 1)Global MIDDLEWARES
 
@@ -23,7 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const limiter = rateLimit({
-  max: 1000,
+  max: 100,
   windowMs: 60 * 60 * 1000,
   message: 'Too many reuests from this IP, please try again in an hour',
 });
@@ -50,7 +52,7 @@ app.use(
     ],
   }),
 );
-
+app.use(compression());
 app.use(
   cors({
     origin: 'http://localhost:5173',
