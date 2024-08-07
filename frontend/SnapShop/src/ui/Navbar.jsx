@@ -16,10 +16,13 @@ function Navbar() {
     localStorage.removeItem("user");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
+    // Do not clear avatar on logout
     queryClient.removeQueries(["user"]);
   };
 
   const userName = user?.name || user?.data?.user?.name;
+  const avatar =
+    localStorage.getItem("avatar") || "https://via.placeholder.com/150";
 
   return (
     <header className="py-4 bg-slate-800 sticky top-0 z-10 shadow-lg font-karla">
@@ -47,7 +50,7 @@ function Navbar() {
                   onClick={() => setMenuOpen(!menuOpen)}
                 >
                   <img
-                    src="https://robohash.org/Terry.png?set=set4"
+                    src={avatar}
                     alt="User Avatar"
                     className="w-6 h-6 rounded-full"
                   />
