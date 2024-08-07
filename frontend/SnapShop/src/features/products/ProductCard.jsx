@@ -1,9 +1,18 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import AddToCartButton from "../../ui/AddToCartButton";
 
-// eslint-disable-next-line react/prop-types
-const ProductCard = ({ id, category, title, price, priceDiscount, rating }) => {
+
+const ProductCard = ({
+  id,
+  category,
+  title,
+  price,
+  priceDiscount,
+  rating,
+  image,
+}) => {
   // Calculate discount percentage
   const discountPercentage = priceDiscount
     ? ((price - priceDiscount) / price) * 100
@@ -12,11 +21,7 @@ const ProductCard = ({ id, category, title, price, priceDiscount, rating }) => {
   return (
     <div className="bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col">
       <Link to={`/product/${id}`} className="block">
-        <img
-          src={`https://via.placeholder.com/150`}
-          alt={title}
-          className="w-full h-48 object-cover"
-        />
+        <img src={image} alt={title} className="w-full h-48 object-cover" />
         <div className="p-4 flex-grow">
           <h3 className="font-bold text-lg text-white">{title}</h3>
           <p className="text-sm text-gray-300">{category}</p>

@@ -1,13 +1,12 @@
 import HeroSection from "./../ui/HeroSection";
 import Features from "./../ui/Features";
-import LatestProducts from "./LatestProducts";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchLatestProducts } from "../services/apiProduct";
-
+import ProductList from "../features/products/ProductList";
 
 const Home = () => {
-  
   const {
     data: newProducts,
     error,
@@ -24,7 +23,7 @@ const Home = () => {
     <div className="bg-slate-800">
       <HeroSection />
       <Features />
-      <LatestProducts products={newProducts} />
+      <ProductList title={"New arrivals"} products={newProducts} />
       <br />
     </div>
   );

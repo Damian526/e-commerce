@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import AddToCartButton from "../ui/AddToCartButton";
-import { fetchProductDetails } from "../services/apiProduct";
+import AddToCartButton from "../../ui/AddToCartButton";
+import { fetchProductDetails } from "../../services/apiProduct";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -14,13 +14,14 @@ const ProductDetails = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  console.log(data);
+
   const product = data.product;
 
   return (
     <div className="container mx-auto pt-8 text-white bg-slate-600">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-4 font-karla">
-        <div className="space-y-2">Photo</div>
+        <img src={product.imageUrl} alt={product.imageUrl} />
+
         <div className="px-2">
           <h2 className="text-2xl">{product?.title}</h2>
           {product?.rating && (

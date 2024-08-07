@@ -182,8 +182,8 @@ const Products = () => {
               <option value="price">Price: Low to High</option>
               <option value="-price">Price: High to Low</option>
               <option value="name">Name: A to Z</option>
-              <option value="addedAt">Oldest to latest</option>
-              <option value="-addedAt">Latest to oldest</option>
+              <option value="addedAt">Oldest to Latest</option>
+              <option value="-addedAt">Latest to Oldest</option>
             </select>
           </div>
           <ProductList products={data.products} />

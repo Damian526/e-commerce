@@ -8,7 +8,7 @@ exports.getCart = catchAsync(async (req, res, next) => {
     'items.product',
   );
   if (!cart) {
-    return next(new AppError('No cart found for this user', 404));
+    return next(new AppError('Cart is empty', 404));
   }
 
   res.status(200).json({

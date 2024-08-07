@@ -2,7 +2,7 @@
 import ProductCard from "./ProductCard";
 
 const ProductList = ({ title, products }) => (
-  <div className="container mx-auto px-4 bg-slate-800">
+  <div className="container mx-auto px-4 mt-4 bg-slate-800">
     <div className="sm:flex items-center justify-between">
       <h2 className="text-4xl font-medium font-karla text-white">{title}</h2>
     </div>
@@ -19,6 +19,7 @@ const ProductList = ({ title, products }) => (
           price={product.price}
           priceDiscount={product.priceDiscount}
           rating={product.rating}
+          image={product.imageUrl}
         />
       ))}
     </div>

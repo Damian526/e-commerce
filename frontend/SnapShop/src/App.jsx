@@ -14,7 +14,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AuthInitializer from "./features/authentication/AuthInitializer";
-import ProductDetails from "./pages/ProductDetails";
+import ProductDetails from "./features/products/ProductDetails";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
