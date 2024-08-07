@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../features/authentication/useUser";
 
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";

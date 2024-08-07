@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { BsCart } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { useState } from "react";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../features/authentication/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import Search from "../ui/Search";
 

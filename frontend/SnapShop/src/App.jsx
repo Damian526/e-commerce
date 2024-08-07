@@ -13,9 +13,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoute from "./ui/ProtectedRoute";
-import AuthInitializer from "./ui/AuthInitializer";
+import AuthInitializer from "./features/authentication/AuthInitializer";
 import ProductDetails from "./pages/ProductDetails";
-
 
 // Create QueryClient instance
 const queryClient = new QueryClient({

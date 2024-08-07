@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
-import AddToCartButton from "./AddToCartButton";
+import AddToCartButton from "../../ui/AddToCartButton";
 
 // eslint-disable-next-line react/prop-types
 const ProductCard = ({ id, category, title, price, priceDiscount, rating }) => {
@@ -8,7 +8,7 @@ const ProductCard = ({ id, category, title, price, priceDiscount, rating }) => {
   const discountPercentage = priceDiscount
     ? ((price - priceDiscount) / price) * 100
     : 0;
-  
+
   return (
     <div className="bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col">
       <Link to={`/product/${id}`} className="block">

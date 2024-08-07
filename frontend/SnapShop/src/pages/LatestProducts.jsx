@@ -1,4 +1,4 @@
-import ProductList from "./ProductList";
+import ProductList from "../features/products/ProductList";
 import PropTypes from "prop-types";
 
 const LatestProducts = ({ products }) => {

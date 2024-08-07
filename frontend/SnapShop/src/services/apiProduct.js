@@ -14,7 +14,7 @@ export const fetchProducts = async (filters) => {
   const { category, minPrice, maxPrice, sort, page, limit, discount, search } =
     filters;
   const params = {};
-  console.log(filters);
+  
   if (category) params.category = category;
   if (minPrice) params.price = { ...params.price, gte: minPrice };
   if (maxPrice) params.price = { ...params.price, lte: maxPrice };

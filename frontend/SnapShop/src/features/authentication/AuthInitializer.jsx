@@ -1,4 +1,4 @@
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "./useAuth";
 import PropTypes from "prop-types";
 
 // eslint-disable-next-line react/prop-types

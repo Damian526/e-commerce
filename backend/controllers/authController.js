@@ -34,9 +34,23 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
+/* exports.signup = catchAsync(async (req, res, next) => {
   //todo change to disable user to set role
   const newUser = await User.create(req.body);
+  createSendToken(newUser, 201, res);
+}); */
+exports.signup = catchAsync(async (req, res, next) => {
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    address: req.body.address,
+    phone: req.body.phone,
+  });
+
   createSendToken(newUser, 201, res);
 });
 

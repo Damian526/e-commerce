@@ -1,7 +1,7 @@
 import { GiArchiveRegister } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useSignup } from "./../hooks/useSignup";
+import { useSignup } from "../features/authentication/useSignup";
 import { toast } from "react-hot-toast";
 
 function Signup() {
@@ -10,7 +10,16 @@ function Signup() {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    const { name, email, password, passwordConfirm } = data;
+    const {
+      name,
+      email,
+      password,
+      passwordConfirm,
+      firstName,
+      lastName,
+      address,
+      phone,
+    } = data;
 
     if (password !== passwordConfirm) {
       toast.error("Passwords do not match");
@@ -18,7 +27,16 @@ function Signup() {
     }
 
     signup(
-      { name, email, password, passwordConfirm },
+      {
+        name,
+        email,
+        password,
+        passwordConfirm,
+        firstName,
+        lastName,
+        address,
+        phone,
+      },
       {
         onSettled: () => reset(),
       },
@@ -60,6 +78,60 @@ function Signup() {
             />
             {errors.name && (
               <p className="text-red-500">{errors.name.message}</p>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              data-test="input-firstName"
+              type="text"
+              placeholder="Your first name here..."
+              className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
+              {...register("firstName", { required: "This field is required" })}
+            />
+            {errors.firstName && (
+              <p className="text-red-500">{errors.firstName.message}</p>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              data-test="input-lastName"
+              type="text"
+              placeholder="Your last name here..."
+              className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
+              {...register("lastName", { required: "This field is required" })}
+            />
+            {errors.lastName && (
+              <p className="text-red-500">{errors.lastName.message}</p>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              data-test="input-address"
+              type="text"
+              placeholder="Your address here..."
+              className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
+              {...register("address", { required: "This field is required" })}
+            />
+            {errors.address && (
+              <p className="text-red-500">{errors.address.message}</p>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              data-test="input-phone"
+              type="text"
+              placeholder="Your phone number here..."
+              className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
+              {...register("phone", {
+                required: "This field is required",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Please provide a valid phone number",
+                },
+              })}
+            />
+            {errors.phone && (
+              <p className="text-red-500">{errors.phone.message}</p>
             )}
           </div>
           <div className="relative">
@@ -123,7 +195,7 @@ function Signup() {
           </button>
         </form>
         <p className="text-center mt-1">
-          Already have an account?{" "}
+          Already have an account?
           <Link
             to="/login"
             className="text-blue-500 cursor-pointer hover:underline"

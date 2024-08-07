@@ -1,6 +1,6 @@
 import HeroSection from "./../ui/HeroSection";
 import Features from "./../ui/Features";
-import LatestProducts from "./../ui/LatestProducts";
+import LatestProducts from "./LatestProducts";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchLatestProducts } from "../services/apiProduct";

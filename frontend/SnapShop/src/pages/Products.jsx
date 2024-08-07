@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts, fetchCategories } from "../services/apiProduct";
-import ProductList from "../ui/ProductList";
-import Pagination from "../ui/Pagination";
+import ProductList from "../features/products/ProductList";
+import Pagination from "../features/products/Pagination";
 import { useLocation } from "react-router-dom";
 
 // Helper function to get query parameters from the URL

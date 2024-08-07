@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../features/authentication/useUser";
 
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {

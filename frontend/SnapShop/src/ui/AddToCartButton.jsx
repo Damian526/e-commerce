@@ -15,7 +15,7 @@ const addToCart = async (productId) => {
   });
 
   if (!response.ok) {
-    console.log(response);
+    console.log(response.json().message);
     throw new Error("Failed to add product to cart");
   }
 

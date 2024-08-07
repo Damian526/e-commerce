@@ -27,7 +27,16 @@ export async function getCurrentUser() {
   }
 }
 
-export const signup = async ({ name, email, password, passwordConfirm }) => {
+export const signup = async ({
+  name,
+  email,
+  password,
+  passwordConfirm,
+  firstName,
+  lastName,
+  address,
+  phone,
+}) => {
   try {
     console.log(name, email, password, passwordConfirm);
     const response = await axiosInstance.post("/users/signup", {
@@ -35,6 +44,10 @@ export const signup = async ({ name, email, password, passwordConfirm }) => {
       email,
       password,
       passwordConfirm,
+      firstName,
+      lastName,
+      address,
+      phone,
     });
     return response.data;
   } catch (error) {
