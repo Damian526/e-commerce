@@ -24,6 +24,8 @@ app.use(helmet());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+// Trust the 'X-Forwarded-For' header set by the proxy
+app.set('trust proxy', 1);
 
 const limiter = rateLimit({
   max: 100,
