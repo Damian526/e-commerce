@@ -14,6 +14,7 @@ const cartRouter = require('./routes/cartRoutes');
 const app = express();
 const cors = require('cors');
 
+const path = require('path');
 
 // 1)Global MIDDLEWARES
 
@@ -59,7 +60,12 @@ app.use(
   }),
 );
 
-// app.use(express.static(`${__dirname}/public`));
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '/public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 // 3) ROUTES
 app.use('/api/v1/products', productRouter); // ends code here if there is correct route
