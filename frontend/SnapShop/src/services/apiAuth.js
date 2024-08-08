@@ -1,7 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
 export const login = async ({ email, password }) => {
-  console.log("response");
   const response = await axiosInstance.post("/users/login", {
     email,
     password,
@@ -38,7 +37,6 @@ export const signup = async ({
   phone,
 }) => {
   try {
-    console.log(name, email, password, passwordConfirm);
     const response = await axiosInstance.post("/users/signup", {
       name,
       email,

@@ -1,28 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-// import PropTypes from "prop-types";
+import { addToCart } from "../services/apiCart";
 
-const addToCart = async (productId) => {
-  const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+ import PropTypes from "prop-types";
 
-  const response = await fetch(`http://localhost:8000/api/v1/cart`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, // Include the token in the headers
-    },
-    body: JSON.stringify({ productId, quantity: 1 }), // Specify the quantity
-  });
 
-  if (!response.ok) {
-    console.log(response.json().message);
-    throw new Error("Failed to add product to cart");
-  }
 
-  return response.json();
-};
-
-// eslint-disable-next-line react/prop-types
 const AddToCartButton = ({ productId }) => {
   const queryClient = useQueryClient();
 
@@ -47,7 +30,7 @@ const AddToCartButton = ({ productId }) => {
     </button>
   );
 };
-/* AddToCartButton.propTypes = {
+ AddToCartButton.propTypes = {
   productId: PropTypes.string.isRequired,
-}; */
+}; 
 export default AddToCartButton;

@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { getCurrentUser } from "../../services/apiAuth";
 import { useDispatch } from "react-redux";
-import { setUser, clearUser } from "../../redux/userSlice";
+import { setUser, clearUser } from "../../store/userSlice";
 
 export function useAuth() {
   const queryClient = useQueryClient();

@@ -1,5 +1,7 @@
-// eslint-disable-next-line react/prop-types
+import PropTypes from "prop-types";
+
 const FeatureCard = ({ icon, desc, title }) => (
+    
   <div className="flex gap-2 bg-slate-600 px-4 py-6 font-karla">
     {icon}
     <div>
@@ -8,5 +10,9 @@ const FeatureCard = ({ icon, desc, title }) => (
     </div>
   </div>
 );
-
+FeatureCard.propTypes = {
+  icon: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  desc: PropTypes.string.isRequired,
+};
 export default FeatureCard;

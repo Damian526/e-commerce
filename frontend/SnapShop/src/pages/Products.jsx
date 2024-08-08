@@ -100,6 +100,7 @@ const Products = () => {
                 id="category"
                 name="category"
                 value={localFilters.category}
+                key={localFilters.category}
                 onChange={handleFilterChange}
                 className="w-full px-4 py-2 bg-white text-black rounded-lg"
               >

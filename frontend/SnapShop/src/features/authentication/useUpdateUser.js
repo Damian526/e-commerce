@@ -5,9 +5,10 @@ import { toast } from "react-hot-toast";
 export const useUpdateUser = () => {
   const mutation = useMutation({
     mutationFn: (data) => axiosInstance.patch("/users/updateMe", data),
+    // eslint-disable-next-line no-unused-vars
     onSuccess: (response) => {
       toast.success("User information updated successfully!");
-      console.log("User updated successfully", response.data);
+      
     },
     onError: (error) => {
       toast.error(

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../features/authentication/useUser";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const { isLoading, isAuthenticated } = useUser();
@@ -16,6 +16,10 @@ const ProtectedRoute = ({ children }) => {
   if (isLoading) return <div>Loading...</div>;
   if (isAuthenticated) return children;
   return null;
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default ProtectedRoute;

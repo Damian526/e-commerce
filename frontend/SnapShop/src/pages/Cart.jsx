@@ -4,7 +4,7 @@ import { useUser } from "../features/authentication/useUser";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { deleteItem, fetchCart, updateQuantity } from "../services/apiCart";
+import { deleteItem, getCart, updateQuantity } from "../services/apiCart";
 
 const Cart = () => {
   const { isAuthenticated } = useUser();
@@ -18,7 +18,7 @@ const Cart = () => {
     isLoading,
   } = useQuery({
     queryKey: ["cart"],
-    queryFn: fetchCart,
+    queryFn: getCart,
     enabled: isAuthenticated,
   });
 
