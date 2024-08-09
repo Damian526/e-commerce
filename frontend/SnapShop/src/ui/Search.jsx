@@ -11,9 +11,11 @@ const Search = () => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [isDropdownVisible, setIsDropdownVisible] = useState(true);
   const navigate = useNavigate();
+
+  // Define debouncedSetSearchTerm using useCallback with setSearchTerm as a dependency
   const debouncedSetSearchTerm = useCallback(
     debounce((term) => setSearchTerm(term), 300),
-    [],
+    [setSearchTerm], // Listing setSearchTerm as a dependency
   );
 
   const handleInputChange = (e) => {
