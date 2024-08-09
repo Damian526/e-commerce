@@ -63,7 +63,7 @@ app.use(compression());
 // Dynamically set the CORS origin based on environment
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: 'https://snapshop-e-commerce.vercel.app',
   }),
 );
 
