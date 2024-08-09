@@ -35,7 +35,6 @@ function Login() {
           <Link
             to="/"
             className="text-4xl font-bold dark:text-white mb-4"
-            data-test="main-logo"
             aria-label="SnapShop Home"
           >
             SnapShop
@@ -84,7 +83,7 @@ function Login() {
             className="bg-blue-500 text-white rounded p-2 hover:bg-blue-700 cursor-pointer"
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Submit"}
+            {isLoading ? "Loading..." : "Login"}
           </button>
         </form>
         <p className="text-center mt-1">
