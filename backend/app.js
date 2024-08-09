@@ -63,7 +63,6 @@ app.use(compression());
 
 const env = 'production' || 'development';
 dotenv.config({ path: `.env.${env}` });
-
 // Dynamically set the CORS origin based on environment
 app.use(
   cors({
