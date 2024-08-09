@@ -70,8 +70,9 @@ function Account() {
   return (
     <>
       <h2 className="text-2xl font-bold m-4">Account</h2>
-      <div className="container flex mx-auto py-4">
-        <div className="flex flex-col items-center mb-4">
+      <div className="container mx-auto py-8 px-4 flex flex-col lg:flex-row items-start space-y-8 lg:space-y-0 lg:space-x-8">
+        {/* Avatar Section */}
+        <div className="flex flex-col items-center lg:items-start">
           <label
             htmlFor="avatar-input"
             className="relative group cursor-pointer"
@@ -79,10 +80,10 @@ function Account() {
             <img
               src={avatar}
               alt="User Avatar"
-              className="w-24 h-24 rounded-full mb-4"
+              className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full mb-4 shadow-lg border-4 border-gray-300 object-cover"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span className="text-white text-sm">Change Account Image</span>
+              <span className="text-white text-sm">Change Image</span>
             </div>
           </label>
           <input
@@ -93,105 +94,109 @@ function Account() {
             ref={fileInputRef}
           />
         </div>
-        {userData && (
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="w-full max-w-md space-y-4 text-white"
-          >
-            <div className="flex items-center">
-              <label className="w-32">Username:</label>
-              <span>{userData.name}</span>
-            </div>
-            <div className="flex items-center">
-              <label className="w-32">Email:</label>
-              <span>{userData.email}</span>
-            </div>
-            <div className="flex items-center">
-              <label className="w-32">First Name:</label>
-              {editMode.firstName ? (
-                <input
-                  type="text"
-                  className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
-                  {...register("firstName", {
-                    required: "First Name is required",
-                  })}
-                />
-              ) : (
-                <span>{userData.firstName}</span>
-              )}
-              <FaPen
-                className="ml-2 cursor-pointer"
-                onClick={() => toggleEditMode("firstName")}
+
+        {/* User Info Section */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full max-w-lg space-y-6"
+        >
+          <div className="flex items-center">
+            <label className="w-32 font-semibold">Username:</label>
+            <span>{userData.name}</span>
+          </div>
+          <div className="flex items-center">
+            <label className="w-32 font-semibold">Email:</label>
+            <span>{userData.email}</span>
+          </div>
+          <div className="flex items-center">
+            <label className="w-32 font-semibold">First Name:</label>
+            {editMode.firstName ? (
+              <input
+                type="text"
+                className="border w-full border-gray-300 py-2 px-4 rounded"
+                {...register("firstName", {
+                  required: "First Name is required",
+                })}
               />
-              {errors.firstName && (
-                <p className="text-red-500">{errors.firstName.message}</p>
-              )}
-            </div>
-            <div className="flex items-center">
-              <label className="w-32">Last Name:</label>
-              {editMode.lastName ? (
-                <input
-                  type="text"
-                  className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
-                  {...register("lastName", {
-                    required: "Last Name is required",
-                  })}
-                />
-              ) : (
-                <span>{userData.lastName}</span>
-              )}
-              <FaPen
-                className="ml-2 cursor-pointer"
-                onClick={() => toggleEditMode("lastName")}
+            ) : (
+              <span>{userData.firstName}</span>
+            )}
+            <FaPen
+              className="ml-2 cursor-pointer"
+              onClick={() => toggleEditMode("firstName")}
+            />
+            {errors.firstName && (
+              <p className="text-red-500">{errors.firstName.message}</p>
+            )}
+          </div>
+          <div className="flex items-center">
+            <label className="w-32 font-semibold">Last Name:</label>
+            {editMode.lastName ? (
+              <input
+                type="text"
+                className="border w-full border-gray-300 py-2 px-4 rounded"
+                {...register("lastName", {
+                  required: "Last Name is required",
+                })}
               />
-              {errors.lastName && (
-                <p className="text-red-500">{errors.lastName.message}</p>
-              )}
-            </div>
-            <div className="flex items-center">
-              <label className="w-32">Address:</label>
-              {editMode.address ? (
-                <input
-                  type="text"
-                  className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
-                  {...register("address", { required: "Address is required" })}
-                />
-              ) : (
-                <span>{userData.address}</span>
-              )}
-              <FaPen
-                className="ml-2 cursor-pointer"
-                onClick={() => toggleEditMode("address")}
+            ) : (
+              <span>{userData.lastName}</span>
+            )}
+            <FaPen
+              className="ml-2 cursor-pointer"
+              onClick={() => toggleEditMode("lastName")}
+            />
+            {errors.lastName && (
+              <p className="text-red-500">{errors.lastName.message}</p>
+            )}
+          </div>
+          <div className="flex items-center">
+            <label className="w-32 font-semibold">Address:</label>
+            {editMode.address ? (
+              <input
+                type="text"
+                className="border w-full border-gray-300 py-2 px-4 rounded"
+                {...register("address", {
+                  required: "Address is required",
+                })}
               />
-              {errors.address && (
-                <p className="text-red-500">{errors.address.message}</p>
-              )}
-            </div>
-            <div className="flex items-center">
-              <label className="w-32">Phone Number:</label>
-              {editMode.phone ? (
-                <input
-                  type="text"
-                  className="border w-full border-black py-2 px-8 rounded dark:bg-slate-600"
-                  {...register("phone", {
-                    required: "Phone Number is required",
-                    pattern: {
-                      value: /^[0-9]+$/,
-                      message: "Please provide a valid phone number",
-                    },
-                  })}
-                />
-              ) : (
-                <span>{userData.phone}</span>
-              )}
-              <FaPen
-                className="ml-2 cursor-pointer"
-                onClick={() => toggleEditMode("phone")}
+            ) : (
+              <span>{userData.address}</span>
+            )}
+            <FaPen
+              className="ml-2 cursor-pointer"
+              onClick={() => toggleEditMode("address")}
+            />
+            {errors.address && (
+              <p className="text-red-500">{errors.address.message}</p>
+            )}
+          </div>
+          <div className="flex items-center">
+            <label className="w-32 font-semibold">Phone Number:</label>
+            {editMode.phone ? (
+              <input
+                type="text"
+                className="border w-full border-gray-300 py-2 px-4 rounded"
+                {...register("phone", {
+                  required: "Phone Number is required",
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "Please provide a valid phone number",
+                  },
+                })}
               />
-              {errors.phone && (
-                <p className="text-red-500">{errors.phone.message}</p>
-              )}
-            </div>
+            ) : (
+              <span>{userData.phone}</span>
+            )}
+            <FaPen
+              className="ml-2 cursor-pointer"
+              onClick={() => toggleEditMode("phone")}
+            />
+            {errors.phone && (
+              <p className="text-red-500">{errors.phone.message}</p>
+            )}
+          </div>
+          <div className="flex justify-end">
             <button
               type="submit"
               disabled={isLoading}
@@ -199,8 +204,8 @@ function Account() {
             >
               {isLoading ? "Updating..." : "Update"}
             </button>
-          </form>
-        )}
+          </div>
+        </form>
       </div>
     </>
   );

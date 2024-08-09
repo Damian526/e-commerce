@@ -83,7 +83,6 @@ const Products = () => {
   if (error) return <div>Error fetching products</div>;
 
   const totalPages = Math.ceil(data.totalProducts / limit);
-
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-col lg:flex-row">
@@ -107,7 +106,7 @@ const Products = () => {
                 <option value="">All Categories</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
-                    {category.name}
+                    {category}
                   </option>
                 ))}
               </select>

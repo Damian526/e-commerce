@@ -89,7 +89,7 @@ const Search = () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Search for a product..."
-          className="border-2 border-blue-500 px-4 md:px-6 py-2 w-full text-black md:text-white dark:bg-slate-800"
+          className="border-2 border-blue-500 px-4 md:px-6 py-2 w-full  text-white bg-slate-800"
         />
         <button
           type="button"
