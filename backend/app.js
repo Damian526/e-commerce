@@ -13,6 +13,7 @@ const userRouter = require('./routes/userRoutes');
 const cartRouter = require('./routes/cartRoutes');
 const path = require('path');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 // Load environment variables
 require('dotenv').config();
@@ -60,10 +61,12 @@ app.use(
 );
 app.use(compression());
 
+const env = process.env.NODE_ENV || 'development';
+dotenv.config({ path: `.env.${env}` });
 // Dynamically set the CORS origin based on environment
 app.use(
   cors({
-    origin: 'https://snapshop-e-commerce.vercel.app',
+    origin: process.env.CLIENT_URL,
   }),
 );
 
