@@ -15,6 +15,7 @@ import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AuthInitializer from "./features/authentication/AuthInitializer";
 import ProductDetails from "./features/products/ProductDetails";
+import ForgotPassword from "./pages/ForgotPassword";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
@@ -50,6 +51,7 @@ function App() {
             </Route>
             <Route path="signup" element={<Signup />} />
             <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
