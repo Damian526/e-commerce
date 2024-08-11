@@ -3,6 +3,9 @@ const crypto = require('crypto');
 const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 const { promisify } = require('util');
+const dotenv = require('dotenv');
+// Load environment variables
+require('dotenv').config();
 
 const catchAsync = require('../utils/catchAsync');
 const User = require('./../models/userModel');
@@ -133,11 +136,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
+  const env = process.env.NODE_ENV || 'development';
 
+  dotenv.config({ path: `.env.${env}` });
   // 3) Send it to user's email
-  const resetURL = `${req.protocol}://${req.get(
-    'host',
-  )}/api/v1/users/resetPassword/${resetToken}`;
+  const resetURL = `${process.env.ClientUrl}/${resetToken}`;
 
   const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
