@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useUser } from "../features/authentication/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import Search from "../ui/Search";
+import { clearToken } from "../utils/tokenManagment";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,10 +13,7 @@ function Navbar() {
   const queryClient = useQueryClient();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    clearToken();
     // Do not clear avatar on logout
     queryClient.removeQueries(["user"]);
   };

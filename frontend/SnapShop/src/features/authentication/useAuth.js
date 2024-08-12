@@ -2,14 +2,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getCurrentUser } from "../../services/apiAuth";
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "../../store/userSlice";
+import { clearToken, getToken } from "../../utils/tokenManagment";
 
 export function useAuth() {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const fetchUser = async () => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = getToken();
     if (!token) return;
 
     try {
@@ -17,8 +17,7 @@ export function useAuth() {
       queryClient.setQueryData(["user"], user.data?.user || user);
       dispatch(setUser(user.data?.user || user));
     } catch (error) {
-      localStorage.removeItem("token");
-      sessionStorage.removeItem("token");
+      clearToken();
       dispatch(clearUser());
       console.error("Error fetching user data:", error);
     }

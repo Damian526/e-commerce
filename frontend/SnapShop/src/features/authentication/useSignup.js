@@ -1,24 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
-import { signup } from "../../services/apiAuth";
 import { toast } from "react-hot-toast";
+import { signup as signupApi } from "../../services/apiAuth";
+import useAuthMutation from "../../hooks/useAuthMutation";
+import { handleError } from "../../utils/errorHandling";
 
 export function useSignup() {
-  const mutation = useMutation({
-    mutationFn: (userData) => signup(userData),
-    // eslint-disable-next-line no-unused-vars
-    onSuccess: (data) => {
+  return useAuthMutation(
+    signupApi,
+    () => {
       toast.success("Signup successful!");
     },
-    onError: (error) => {
-      toast.error(
-        `Signup error: ${error.response?.data?.message || "An error occurred"}`,
-      );
+    (error) => {
+      const errorMessage = handleError(error, "useSignup");
+      toast.error(`Signup error: ${errorMessage}`);
     },
-  });
-
-  return {
-    signup: mutation.mutate,
-    isLoading: mutation.isLoading,
-    error: mutation.error,
-  };
+  );
 }

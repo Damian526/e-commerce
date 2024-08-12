@@ -1,3 +1,4 @@
+import { getToken } from "../utils/tokenManagment";
 import axiosInstance from "./axiosInstance";
 
 export const login = async ({ email, password }) => {
@@ -10,7 +11,7 @@ export const login = async ({ email, password }) => {
 
 export async function getCurrentUser() {
   try {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) throw new Error("No token found");
 
     const response = await axiosInstance.get("/users/me", {

@@ -1,39 +1,40 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login as loginApi } from "../../services/apiAuth";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
+import { login as loginApi } from "../../services/apiAuth";
 import { setUser } from "../../store/userSlice";
+import { storeToken } from "../../utils/tokenManagment";
+import useAuthMutation from "../../hooks/useAuthMutation";
+import { handleError } from "../../utils/errorHandling";
 
 export function useLogin() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { mutate: login, isLoading } = useMutation({
-    mutationFn: loginApi,
-    onSuccess: (response, { rememberMe }) => {
+  return useAuthMutation(
+    loginApi,
+    (response, { rememberMe }) => {
       const { token, data } = response;
       const user = data?.user || data;
 
-      if (rememberMe) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-      } else {
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("user", JSON.stringify(user));
-      }
+      storeToken(token, user, rememberMe);
 
-      queryClient.setQueryData(["user"], user);
+      queryClient.setQueryData(["user"], (oldData) => {
+        return {
+          ...oldData,
+          ...user, // Merging the existing user data with the new data
+        };
+      });
+
       dispatch(setUser(user));
       navigate("/home", { replace: true });
       toast.success("Login successful!");
     },
-    onError: (err) => {
-      console.error("ERROR", err);
+    (err) => {
+      handleError(err, 'useLogin');
       toast.error("Provided email or password are incorrect");
     },
-  });
-
-  return { login, isLoading };
+  );
 }

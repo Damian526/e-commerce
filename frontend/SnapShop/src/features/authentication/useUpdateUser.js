@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../services/axiosInstance";
 import { toast } from "react-hot-toast";
+import { handleError } from "../../utils/errorHandling";
 
 export const useUpdateUser = () => {
   const mutation = useMutation({
@@ -8,13 +9,10 @@ export const useUpdateUser = () => {
     // eslint-disable-next-line no-unused-vars
     onSuccess: (response) => {
       toast.success("User information updated successfully!");
-      
     },
     onError: (error) => {
-      toast.error(
-        `Update error: ${error.response?.data?.message || "An error occurred"}`,
-      );
-      console.error("Failed to update user", error);
+      const errorMessage = handleError(error, "useUpdateUser");
+      toast.error(`Update error: ${errorMessage}`);
     },
   });
 
