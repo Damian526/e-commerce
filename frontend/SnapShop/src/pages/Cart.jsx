@@ -1,14 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "../features/authentication/useUser";
-
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { deleteItem, getCart, updateQuantity } from "../services/apiCart";
 
 const Cart = () => {
   const { isAuthenticated } = useUser();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [selectedItems, setSelectedItems] = useState({});
 
@@ -56,6 +56,20 @@ const Cart = () => {
       .filter((item) => selectedItems[item.product._id])
       .reduce((acc, item) => acc + item.quantity * item.product.price, 0)
       .toFixed(2);
+  };
+
+  const handleCheckout = () => {
+    // Filter selected items to pass only those to the checkout page
+    const filteredItems = cart.items.filter(
+      (item) => selectedItems[item.product._id],
+    );
+
+    if (filteredItems.length === 0) {
+      alert("Please select at least one item to proceed to checkout.");
+      return;
+    }
+
+    navigate("/checkout", { state: { items: filteredItems } });
   };
 
   if (!isAuthenticated) {
@@ -163,12 +177,12 @@ const Cart = () => {
         </p>
       </div>
       <div className="flex justify-end mt-4">
-        <Link
-          to="/checkout"
-          className="px-6 py-2 bg-blue-500  text-white font-bold rounded hover:bg-blue-600"
+        <button
+          onClick={handleCheckout}
+          className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
         >
           Proceed to Payment
-        </Link>
+        </button>
       </div>
     </div>
   );

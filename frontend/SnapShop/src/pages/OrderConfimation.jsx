@@ -3,7 +3,11 @@ import { useLocation } from "react-router-dom";
 const OrderConfirmation = () => {
   const location = useLocation();
   const order = location.state?.order;
-  order.items.forEach((element) => console.log(element.productName));
+
+  // Ensure order and order.items exist before accessing them
+  if (order && order.items) {
+    order.items.forEach((element) => console.log(element.productName));
+  }
 
   return (
     <div className="container mx-auto py-8 px-4 bg-gray-900 rounded-lg shadow-lg">
