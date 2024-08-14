@@ -77,11 +77,16 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   const updatedProduct = await Product.findByIdAndUpdate(
     req.params.id,
     req.body,
-    { new: true, runValidators: true },
+    {
+      new: true, // Return the modified document rather than the original
+      runValidators: true, // Ensure the update adheres to the schema's validators
+    },
   );
+
   if (!updatedProduct) {
-    return next(new AppError(`Product not found with that ID`, 404));
+    return next(new AppError('No product found with that ID', 404));
   }
+
   res.status(200).json({
     status: 'success',
     data: {

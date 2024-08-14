@@ -11,6 +11,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
 const cartRouter = require('./routes/cartRoutes');
+const orderRouter = require('./routes/orderRoutes');
 const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -32,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 app.set('trust proxy', 1);
 
 const limiter = rateLimit({
-  max: 100,
+  max: 1000,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour',
 });
@@ -82,6 +83,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/cart', cartRouter);
+app.use('/api/v1/order', orderRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

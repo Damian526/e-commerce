@@ -17,6 +17,7 @@ import AuthInitializer from "./features/authentication/AuthInitializer";
 import ProductDetails from "./features/products/ProductDetails";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import OrderConfirmation from "./pages/OrderConfimation";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
@@ -39,6 +40,7 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="products" element={<Products />} />
               <Route path="checkout" element={<Checkout />} />
+              <Route path="order-confirmation" element={<OrderConfirmation />} />
               <Route path="product/:id" element={<ProductDetails />} />
               <Route
                 path="account"
