@@ -59,7 +59,6 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    // Filter selected items to pass only those to the checkout page
     const filteredItems = cart.items.filter(
       (item) => selectedItems[item.product._id],
     );
@@ -71,6 +70,11 @@ const Cart = () => {
 
     navigate("/checkout", { state: { items: filteredItems } });
   };
+
+  // Check if there are any selected items
+  const isCheckoutDisabled = !Object.values(selectedItems).some(
+    (isSelected) => isSelected,
+  );
 
   if (!isAuthenticated) {
     return (
@@ -179,7 +183,12 @@ const Cart = () => {
       <div className="flex justify-end mt-4">
         <button
           onClick={handleCheckout}
-          className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
+          className={`px-6 py-2 font-bold rounded transition-colors duration-300 ${
+            isCheckoutDisabled
+              ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
+          }`}
+          disabled={isCheckoutDisabled}
         >
           Proceed to Payment
         </button>

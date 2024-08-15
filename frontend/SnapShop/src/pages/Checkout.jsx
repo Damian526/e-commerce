@@ -27,20 +27,7 @@ const Checkout = () => {
         return;
       }
       console.log(selectedItems); // Sanitize the order object before passing to the confirmation page
-      /* const sanitizedOrder = {
-        id: order._id,
-        items: order.items.map((item) => ({
-          productId: item.product, // Assuming item.product is just an ID
-          productName: item.productName,
-          productDescription: item.productDescription,
-          category: item.category,
-          imageUrl: item.imageUrl,
-          quantity: item.quantity,
-          price: item.price, // Assuming price is directly on item
-        })),
-        total: order.total,
-      }; */
-      
+
       navigate("/order-confirmation", { state: { order } });
     },
     onError: (error) => {

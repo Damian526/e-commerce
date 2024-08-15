@@ -18,6 +18,7 @@ import ProductDetails from "./features/products/ProductDetails";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import OrderConfirmation from "./pages/OrderConfimation";
+import OrdersHistory from "./pages/OrdersHistory";
 
 // Create QueryClient instance
 const queryClient = new QueryClient({
@@ -40,7 +41,11 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="products" element={<Products />} />
               <Route path="checkout" element={<Checkout />} />
-              <Route path="order-confirmation" element={<OrderConfirmation />} />
+              <Route
+                path="order-confirmation"
+                element={<OrderConfirmation />}
+              />
+              <Route path="orders-history" element={<OrdersHistory />} />
               <Route path="product/:id" element={<ProductDetails />} />
               <Route
                 path="account"
@@ -74,8 +79,8 @@ function App() {
               fontSize: "16px",
               maxWidth: "500px",
               padding: "16px 24px",
-              backgroundColor: "var(--color-grey-0)",
-              color: "var(--color-grey-700)",
+              backgroundColor: "blue",
+              color: "black",
             },
           }}
         />

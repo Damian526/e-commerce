@@ -61,6 +61,10 @@ function Navbar() {
                       >
                         Account
                       </Link>
+                      <Link
+                        to="/orders-history"
+                        className="block px-4 py-2 text-white hover:bg-slate-600"
+                      >Orders history</Link>
                       <button
                         onClick={handleLogout}
                         className="block px-4 py-2 text-white hover:bg-slate-600 w-full text-left"
