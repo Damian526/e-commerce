@@ -3,13 +3,13 @@ const { protect, restrictTo } = require('./../controllers/authController');
 const express = require('express');
 const {
   getAllProducts,
-  getProduct,
   createProduct,
-  updateProduct,
-  deleteProduct,
   aliasTopProducts,
   getProductStats,
   getCategories,
+  getProductByIdOrSlug,
+  updateProductByIdOrSlug,
+  deleteProductByIdOrSlug,
 } = require('../controllers/productController');
 const router = express.Router();
 
@@ -18,9 +18,9 @@ router.route('/categories').get(getCategories);
 router.route('/top-5-cheap').get(aliasTopProducts, getAllProducts);
 router.route('/').get(getAllProducts).post(createProduct);
 router
-  .route('/:id')
-  .get(getProduct)
-  .put(protect, restrictTo('seller', 'admin'), updateProduct)
-  .delete(protect, restrictTo('seller', 'admin'), deleteProduct);
+  .route('/:identifier')
+  .get(getProductByIdOrSlug)
+  .patch(protect, restrictTo('seller', 'admin'), updateProductByIdOrSlug)
+  .delete(protect, restrictTo('seller', 'admin'), deleteProductByIdOrSlug);
 
 module.exports = router;

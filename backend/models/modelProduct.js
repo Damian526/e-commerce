@@ -83,11 +83,25 @@ const productSchema = new mongoose.Schema(
 );
 
 // document middleware: runs before .save() and .create()
-productSchema.pre('save', function (next) {
+productSchema.pre('save', async function (next) {
+  if (!this.isModified('name')) return next();
+
+  // Generate the initial slug
   this.slug = slugify(this.name, { lower: true });
+
+  // Check if the slug is already in use
+  const existingProduct = await Product.findOne({ slug: this.slug });
+  if (
+    existingProduct &&
+    existingProduct._id.toString() !== this._id.toString()
+  ) {
+    // If a product with the same slug exists, append a unique identifier
+    this.slug = `${this.slug}-${Date.now()}`;
+  }
+
   next();
 });
-
+productSchema.index({ slug: 1 }, { unique: true });
 // Static method to get all possible categories
 productSchema.statics.getCategories = function () {
   return this.schema.path('category').enumValues;

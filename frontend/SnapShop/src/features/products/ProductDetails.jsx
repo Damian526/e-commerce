@@ -4,12 +4,12 @@ import AddToCartButton from "../../ui/AddToCartButton";
 import { fetchProductDetails } from "../../services/apiProduct";
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const { slug } = useParams(); // Changed from id to slug
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["productDetails", id],
-    queryFn: () => fetchProductDetails(id),
-    retry: false, // Disable automatic retries
+    queryKey: ["productDetails", slug],
+    queryFn: () => fetchProductDetails(slug), // Pass the slug instead of id
+    retry: false,
   });
 
   if (isLoading) return <div>Loading...</div>;

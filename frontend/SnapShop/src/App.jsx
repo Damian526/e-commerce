@@ -46,7 +46,7 @@ function App() {
                 element={<OrderConfirmation />}
               />
               <Route path="orders-history" element={<OrdersHistory />} />
-              <Route path="product/:id" element={<ProductDetails />} />
+              <Route path="product/:slug" element={<ProductDetails />} />
               <Route
                 path="account"
                 element={

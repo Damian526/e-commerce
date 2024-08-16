@@ -4,11 +4,6 @@ const OrderConfirmation = () => {
   const location = useLocation();
   const order = location.state?.order;
 
-  // Ensure order and order.items exist before accessing them
-  if (order && order.items) {
-    order.items.forEach((element) => console.log(element.productName));
-  }
-
   return (
     <div className="container mx-auto py-8 px-4 bg-gray-900 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-100">

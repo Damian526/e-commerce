@@ -2,6 +2,7 @@ const Product = require('../models/modelProduct');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
+const { default: mongoose } = require('mongoose');
 
 exports.aliasTopProducts = (req, res, next) => {
   req.query.limit = '5';
@@ -47,20 +48,30 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   });
 });
 
-// Get a single product by ID
-exports.getProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+exports.getProductByIdOrSlug = catchAsync(async (req, res, next) => {
+  const { identifier } = req.params;
+
+  // Try finding by slug
+  let product = await Product.findOne({ slug: identifier });
+
+  // If not found by slug, try finding by ID
   if (!product) {
-    return next(new AppError(`Product not found with that ID`, 404));
+    if (mongoose.Types.ObjectId.isValid(identifier)) {
+      product = await Product.findById(identifier);
+    }
   }
-  res.json({
+
+  if (!product) {
+    return next(new AppError('Product not found with that ID or slug', 404));
+  }
+
+  res.status(200).json({
     status: 'success',
     data: {
       product,
     },
   });
 });
-
 // Create a new product
 exports.createProduct = catchAsync(async (req, res, next) => {
   const newProduct = await Product.create(req.body);
@@ -72,35 +83,54 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   });
 });
 
-// Update an existing product
-exports.updateProduct = catchAsync(async (req, res, next) => {
-  const updatedProduct = await Product.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true, // Return the modified document rather than the original
-      runValidators: true, // Ensure the update adheres to the schema's validators
-    },
-  );
+exports.updateProductByIdOrSlug = catchAsync(async (req, res, next) => {
+  const { identifier } = req.params;
 
-  if (!updatedProduct) {
-    return next(new AppError('No product found with that ID', 404));
+  // First try updating by slug
+  let product = await Product.findOneAndUpdate({ slug: identifier }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  // If not found by slug, try updating by ID
+  if (!product) {
+    if (mongoose.Types.ObjectId.isValid(identifier)) {
+      product = await Product.findByIdAndUpdate(identifier, req.body, {
+        new: true,
+        runValidators: true,
+      });
+    }
+  }
+
+  if (!product) {
+    return next(new AppError('No product found with that ID or slug', 404));
   }
 
   res.status(200).json({
     status: 'success',
     data: {
-      product: updatedProduct,
+      product,
     },
   });
 });
 
-// Delete a product
-exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdAndDelete(req.params.id);
+exports.deleteProductByIdOrSlug = catchAsync(async (req, res, next) => {
+  const { identifier } = req.params;
+
+  // Try deleting by slug
+  let product = await Product.findOneAndDelete({ slug: identifier });
+
+  // If not found by slug, try deleting by ID
   if (!product) {
-    return next(new AppError(`Product not found with that ID`, 404));
+    if (mongoose.Types.ObjectId.isValid(identifier)) {
+      product = await Product.findByIdAndDelete(identifier);
+    }
   }
+
+  if (!product) {
+    return next(new AppError('Product not found with that ID or slug', 404));
+  }
+
   res.status(204).json({ message: 'Product deleted successfully' });
 });
 

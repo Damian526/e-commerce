@@ -14,6 +14,7 @@ const ProductList = ({ title, products }) => (
         <ProductCard
           key={product._id}
           id={product._id}
+          slug={product.slug}
           category={product.category}
           title={product.name}
           price={product.price}

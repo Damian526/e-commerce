@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import AddToCartButton from "../../ui/AddToCartButton";
 
-
 const ProductCard = ({
-  id,
+  slug, // Use slug instead of id
   category,
   title,
   price,
@@ -17,10 +16,12 @@ const ProductCard = ({
   const discountPercentage = priceDiscount
     ? ((price - priceDiscount) / price) * 100
     : 0;
-
+ 
   return (
     <div className="bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col">
-      <Link to={`/product/${id}`} className="block">
+      <Link to={`/product/${slug}`} className="block">
+        {" "}
+        {/* Use slug in the URL */}
         <img src={image} alt={title} className="w-full h-48 object-cover" />
         <div className="p-4 flex-grow">
           <h3 className="font-bold text-lg text-white">{title}</h3>
@@ -49,7 +50,8 @@ const ProductCard = ({
         </div>
       </Link>
       <div className="p-4 mt-auto">
-        <AddToCartButton productId={id} />
+        <AddToCartButton productId={slug} />{" "}
+        {/* Ensure AddToCart uses the correct ID or slug as needed */}
       </div>
     </div>
   );

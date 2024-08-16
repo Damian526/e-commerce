@@ -26,7 +26,6 @@ const Checkout = () => {
         toast.error("Unexpected error: Order details are missing.");
         return;
       }
-      console.log(selectedItems); // Sanitize the order object before passing to the confirmation page
 
       navigate("/order-confirmation", { state: { order } });
     },
