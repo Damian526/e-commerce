@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../features/authentication/useUser";
 import PropTypes from "prop-types";
+import Loader from "./Loader";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [isAuthenticated, isLoading, navigate]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (isAuthenticated) return children;
   return null;
 };

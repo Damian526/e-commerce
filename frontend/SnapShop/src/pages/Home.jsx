@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchLatestProducts } from "../services/apiProduct";
 import ProductList from "../features/products/ProductList";
+import Loader from "../ui/Loader";
 
 const Home = () => {
   const {
@@ -16,7 +17,7 @@ const Home = () => {
     queryFn: fetchLatestProducts,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader/>
   if (error) return <div>Error: {error.message}</div>;
 
   return (

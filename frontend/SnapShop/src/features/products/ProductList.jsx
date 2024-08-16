@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 import ProductCard from "./ProductCard";
 
 const ProductList = ({ title, products }) => (
@@ -16,7 +16,7 @@ const ProductList = ({ title, products }) => (
           id={product._id}
           slug={product.slug}
           category={product.category}
-          title={product.name}
+          name={product.name}  
           price={product.price}
           priceDiscount={product.priceDiscount}
           rating={product.rating}
@@ -26,5 +26,21 @@ const ProductList = ({ title, products }) => (
     </div>
   </div>
 );
+
+ProductList.propTypes = {
+  title: PropTypes.string.isRequired,
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,  
+      price: PropTypes.number.isRequired,
+      priceDiscount: PropTypes.number,
+      rating: PropTypes.number.isRequired,
+      imageUrl: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
 
 export default ProductList;

@@ -4,6 +4,7 @@ import { fetchProducts, fetchCategories } from "../services/apiProduct";
 import ProductList from "../features/products/ProductList";
 import Pagination from "../features/products/Pagination";
 import { useLocation } from "react-router-dom";
+import Loader from "../ui/Loader";
 
 // Helper function to get query parameters from the URL
 const useQueryParams = () => {
@@ -79,8 +80,8 @@ const Products = () => {
     setCurrentPage(1);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching products</div>;
+  if (isLoading) return <Loader />;
+  if (error) return <div>{error}</div>;
 
   const totalPages = Math.ceil(data.totalProducts / limit);
   return (
@@ -186,7 +187,7 @@ const Products = () => {
               <option value="-addedAt">Latest to Oldest</option>
             </select>
           </div>
-          <ProductList products={data.products} />
+          <ProductList title="Results" products={data.products} />
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

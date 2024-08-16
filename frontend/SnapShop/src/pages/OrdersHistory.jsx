@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getOrderHistory } from "../services/apiOrder";
+import Loader from "../ui/Loader";
 
 const OrdersHistory = () => {
   const { data, error, isLoading } = useQuery({
@@ -7,7 +8,7 @@ const OrdersHistory = () => {
     queryFn: getOrderHistory,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

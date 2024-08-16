@@ -3,6 +3,7 @@ import { useLogin } from "../features/authentication/useLogin";
 import { Link } from "react-router-dom";
 import { FaUnlock } from "react-icons/fa";
 import { RiLockPasswordFill, RiUser3Fill } from "react-icons/ri";
+import Loader from "../ui/Loader";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -83,7 +84,7 @@ function Login() {
             className="bg-blue-500 text-white rounded p-2 hover:bg-blue-700 cursor-pointer"
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Login"}
+            {isLoading ? <Loader /> : "Login"}
           </button>
         </form>
         <p className="text-center mt-1">

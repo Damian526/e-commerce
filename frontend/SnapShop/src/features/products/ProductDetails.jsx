@@ -12,7 +12,7 @@ const ProductDetails = () => {
     retry: false,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loader</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   const product = data.product;
