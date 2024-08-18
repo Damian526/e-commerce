@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import AddToCartButton from "../../ui/AddToCartButton";
 import { fetchProductDetails } from "../../services/apiProduct";
+import ErrorMessage from "../../ui/ErrorMessage";
 
 const ProductDetails = () => {
   const { slug } = useParams(); // Changed from id to slug
@@ -11,9 +12,14 @@ const ProductDetails = () => {
     queryFn: () => fetchProductDetails(slug), // Pass the slug instead of id
     retry: false,
   });
-
+  console.log(error);
   if (isLoading) return <div>Loader</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error)
+    return (
+      <ErrorMessage
+        error={error || { message: "An unexpected error occurred" }}
+      />
+    );
 
   const product = data.product;
 

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getOrderHistory } from "../services/apiOrder";
 import Loader from "../ui/Loader";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const OrdersHistory = () => {
   const { data, error, isLoading } = useQuery({
@@ -9,7 +10,7 @@ const OrdersHistory = () => {
   });
 
   if (isLoading) return <Loader />;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <ErrorMessage error={error} />;
 
   return (
     <div className="container mx-auto py-8 px-4 bg-gray-900 rounded-lg shadow-lg">

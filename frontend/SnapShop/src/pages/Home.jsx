@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchLatestProducts } from "../services/apiProduct";
 import ProductList from "../features/products/ProductList";
 import Loader from "../ui/Loader";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const Home = () => {
   const {
@@ -17,8 +18,8 @@ const Home = () => {
     queryFn: fetchLatestProducts,
   });
 
-  if (isLoading) return <Loader/>
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <Loader />;
+  if (error) return <ErrorMessage error={error} />;
 
   return (
     <div className="bg-slate-800">

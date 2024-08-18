@@ -5,6 +5,7 @@ import ProductList from "../features/products/ProductList";
 import Pagination from "../features/products/Pagination";
 import { useLocation } from "react-router-dom";
 import Loader from "../ui/Loader";
+import ErrorMessage from "../ui/ErrorMessage";
 
 // Helper function to get query parameters from the URL
 const useQueryParams = () => {
@@ -81,7 +82,12 @@ const Products = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <div>{error}</div>;
+  if (error)
+    return (
+      <ErrorMessage
+        error={error || { message: "An unexpected error occurred" }}
+      />
+    );
 
   const totalPages = Math.ceil(data.totalProducts / limit);
   return (

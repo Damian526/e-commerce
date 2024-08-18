@@ -9,6 +9,8 @@ export const useUpdateUser = () => {
     // eslint-disable-next-line no-unused-vars
     onSuccess: (response) => {
       toast.success("User information updated successfully!");
+      // Return the updated user data
+      return response.data.data.user;
     },
     onError: (error) => {
       const errorMessage = handleError(error, "useUpdateUser");
@@ -17,7 +19,7 @@ export const useUpdateUser = () => {
   });
 
   return {
-    updateUser: mutation.mutate,
+    updateUser: mutation.mutateAsync, 
     isLoading: mutation.isLoading,
     error: mutation.error,
   };
