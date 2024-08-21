@@ -1,5 +1,7 @@
 // routes/productRoutes.js
 const { protect, restrictTo } = require('./../controllers/authController');
+const reviewRouter = require('./reviewRoutes');
+
 const express = require('express');
 const {
   getAllProducts,
@@ -12,6 +14,7 @@ const {
   deleteProductByIdOrSlug,
 } = require('../controllers/productController');
 const router = express.Router();
+router.use('/:productId/reviews', reviewRouter);
 
 router.route('/product-stats').get(getProductStats);
 router.route('/categories').get(getCategories);

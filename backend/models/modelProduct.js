@@ -82,6 +82,12 @@ const productSchema = new mongoose.Schema(
   },
 );
 
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product',
+  localField: '_id',
+});
+
 // document middleware: runs before .save() and .create()
 productSchema.pre('save', async function (next) {
   if (!this.isModified('name')) return next();
@@ -101,6 +107,7 @@ productSchema.pre('save', async function (next) {
 
   next();
 });
+
 productSchema.index({ slug: 1 }, { unique: true });
 // Static method to get all possible categories
 productSchema.statics.getCategories = function () {
