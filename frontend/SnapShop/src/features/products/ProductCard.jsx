@@ -1,7 +1,9 @@
+
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import AddToCartButton from "../../ui/AddToCartButton";
 import PropTypes from "prop-types";
+import useLazyLoadImage from "../../hooks/useLazyLoadImage";
 
 const ProductCard = ({
   slug,
@@ -12,6 +14,8 @@ const ProductCard = ({
   rating,
   image,
 }) => {
+  const [setRef, loadedSrc] = useLazyLoadImage(image);
+
   const discountPercentage = priceDiscount
     ? ((price - priceDiscount) / price) * 100
     : 0;
@@ -19,7 +23,12 @@ const ProductCard = ({
   return (
     <div className="bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col">
       <Link to={`/product/${slug}`} className="block">
-        <img src={image} alt={name} className="w-full h-48 object-cover" />
+        <img
+          ref={setRef} // Attach the ref to the image element
+          src={loadedSrc}
+          alt={name}
+          className="w-full h-48 object-cover"
+        />
         <div className="p-4 flex-grow">
           <h3 className="font-bold text-lg text-white">{name}</h3>
           <p className="text-sm text-gray-300">{category}</p>

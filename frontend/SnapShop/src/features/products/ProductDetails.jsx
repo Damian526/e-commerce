@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import AddToCartButton from "../../ui/AddToCartButton";
 import { fetchProductDetails } from "../../services/apiProduct";
 import ErrorMessage from "../../ui/ErrorMessage";
+import useLazyLoadImage from "../../hooks/useLazyLoadImage";
+import Loader from "../../ui/Loader";
 
 const ProductDetails = () => {
   const { slug } = useParams(); // Changed from id to slug
@@ -12,8 +14,10 @@ const ProductDetails = () => {
     queryFn: () => fetchProductDetails(slug), // Pass the slug instead of id
     retry: false,
   });
-  console.log(error);
-  if (isLoading) return <div>Loader</div>;
+
+  const [setRef, loadedSrc] = useLazyLoadImage(data?.product?.imageUrl);
+
+  if (isLoading) return <Loader />;
   if (error)
     return (
       <ErrorMessage
@@ -24,9 +28,10 @@ const ProductDetails = () => {
   const product = data.product;
 
   return (
-    <div className="container mx-auto pt-8 text-white bg-slate-600">
+    <div className="container mx-auto pt-8 text-white bg-slate-700">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-4 font-karla">
-        <img src={product.imageUrl} alt={product.imageUrl} />
+        {/* Attach the ref to the img element */}
+        <img ref={setRef} src={loadedSrc} alt={product?.title} />
 
         <div className="px-2">
           <h2 className="text-2xl">{product?.title}</h2>
