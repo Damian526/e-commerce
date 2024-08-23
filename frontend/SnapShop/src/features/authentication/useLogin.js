@@ -13,7 +13,7 @@ export function useLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  return useAuthMutation(
+  const { mutate: login, isLoading } = useAuthMutation(
     loginApi,
     (response, { rememberMe }) => {
       const { token, data } = response;
@@ -33,8 +33,10 @@ export function useLogin() {
       toast.success("Login successful!");
     },
     (err) => {
-      handleError(err, 'useLogin');
+      handleError(err, "useLogin");
       toast.error("Provided email or password are incorrect");
     },
   );
+
+  return { login, isLoading }; 
 }

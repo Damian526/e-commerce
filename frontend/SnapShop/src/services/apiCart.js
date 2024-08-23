@@ -6,6 +6,7 @@ export const getCart = async () => {
 };
 
 export const addToCart = async (productId) => {
+  console.log(productId);
   try {
     const data = await axiosInstance.post("/cart", { productId, quantity: 1 }); // Specify the quantity
     return data;
