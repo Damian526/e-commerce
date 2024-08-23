@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import AddToCartButton from "../../ui/AddToCartButton";
@@ -6,6 +5,8 @@ import PropTypes from "prop-types";
 import useLazyLoadImage from "../../hooks/useLazyLoadImage";
 
 const ProductCard = ({
+  // eslint-disable-next-line react/prop-types
+  id,
   slug,
   category,
   name,
@@ -56,7 +57,7 @@ const ProductCard = ({
         </div>
       </Link>
       <div className="p-4 mt-auto">
-        <AddToCartButton productId={slug} />
+        <AddToCartButton productId={id} />
       </div>
     </div>
   );
