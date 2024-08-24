@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema(
   {
-    review: {
+    comment: {
       type: String,
       required: [true, 'Review cannot be empty'],
     },
@@ -40,7 +40,7 @@ reviewSchema.index({ product: 1, user: 1 }, { unique: true });
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'name ',
+    select: 'name photo',
   });
   next();
 });

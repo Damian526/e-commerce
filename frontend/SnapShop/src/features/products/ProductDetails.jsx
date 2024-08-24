@@ -5,6 +5,7 @@ import { fetchProductDetails } from "../../services/apiProduct";
 import ErrorMessage from "../../ui/ErrorMessage";
 import useLazyLoadImage from "../../hooks/useLazyLoadImage";
 import Loader from "../../ui/Loader";
+import ProductReviews from "./ProductReviews"; // Import the reviews component
 
 const ProductDetails = () => {
   const { slug } = useParams(); // Changed from id to slug
@@ -60,6 +61,10 @@ const ProductDetails = () => {
         </div>
       </div>
       <hr className="mt-4" />
+
+      {/* Include the ProductReviews component */}
+      <ProductReviews id={product.id} />
+
       <br />
     </div>
   );

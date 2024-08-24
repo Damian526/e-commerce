@@ -1,13 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getOrderHistory } from "../services/apiOrder";
+import { submitReview } from "../services/apiReview";
 import Loader from "../ui/Loader";
 import ErrorMessage from "../ui/ErrorMessage";
+import Order from "../features/order/Order";
 
 const OrdersHistory = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["orderHistory"],
     queryFn: getOrderHistory,
   });
+
+  const queryClient = useQueryClient();
+
+  const submitReviewMutation = useMutation({
+    mutationFn: submitReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries("orderHistory"); // Refresh the order history to show the new reviews
+    },
+  });
+
+  const handleSubmitReview = (productId, review) => {
+    submitReviewMutation.mutate({ productId, ...review });
+  };
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage error={error} />;
@@ -22,26 +37,12 @@ const OrdersHistory = () => {
       ) : (
         <ul className="space-y-4">
           {data.orders.map((order) => (
-            <li
+            <Order
               key={order._id}
-              className="p-4 bg-gray-800 rounded-lg shadow-md"
-            >
-              <h3 className="text-xl font-semibold text-gray-100">
-                Order #{order._id}
-              </h3>
-              <p className="text-gray-400">
-                Date: {new Date(order.orderDate).toLocaleDateString()}
-              </p>
-              <p className="text-gray-400">Total: ${order.total.toFixed(2)}</p>
-              <ul className="mt-2">
-                {order.items.map((item) => (
-                  <li key={item.product} className="text-gray-300">
-                    {item.productName} (x{item.quantity}) - $
-                    {item.price.toFixed(2)}
-                  </li>
-                ))}
-              </ul>
-            </li>
+              order={order}
+              onSubmitReview={handleSubmitReview}
+              userId={data.userId}
+            />
           ))}
         </ul>
       )}

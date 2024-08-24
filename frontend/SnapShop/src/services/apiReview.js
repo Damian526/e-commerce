@@ -30,3 +30,13 @@ export const updateReview = async ({ reviewId, rating, comment }) => {
     throw error;
   }
 };
+
+export const getReviews = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/products/${id}/reviews`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
