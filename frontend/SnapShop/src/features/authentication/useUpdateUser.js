@@ -10,6 +10,7 @@ export const useUpdateUser = () => {
     onSuccess: (response) => {
       toast.success("User information updated successfully!");
       // Return the updated user data
+      console.log(response.data.data.user);
       return response.data.data.user;
     },
     onError: (error) => {
@@ -19,7 +20,7 @@ export const useUpdateUser = () => {
   });
 
   return {
-    updateUser: mutation.mutateAsync, 
+    updateUser: mutation.mutateAsync,
     isLoading: mutation.isLoading,
     error: mutation.error,
   };

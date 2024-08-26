@@ -8,6 +8,7 @@ import { FaPen } from "react-icons/fa";
 function Account() {
   const { user } = useUser();
   const { updateUser, isLoading } = useUpdateUser();
+  // eslint-disable-next-line no-unused-vars
   const [avatar, setAvatar] = useState(
     localStorage.getItem("avatar") || "https://via.placeholder.com/150",
   );
@@ -29,23 +30,12 @@ function Account() {
   });
   const { errors } = formState;
 
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const avatarURL = reader.result;
-      setAvatar(avatarURL);
-      localStorage.setItem("avatar", avatarURL);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const toggleEditMode = (field) => {
     setEditMode((prev) => ({
       ...prev,
       [field]: !prev[field],
     }));
-    setValue(field, userData[field] || "");
+    setValue(field, userData[field] || ""); // Set the value in the form
   };
 
   const onSubmit = async (data) => {
@@ -56,12 +46,9 @@ function Account() {
 
     try {
       const updatedUser = await updateUser(data);
-      // Update the userData state with the updated user information
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        ...updatedUser,
-      }));
-      reset();
+     
+      setUserData(updatedUser.data.data.user); // Update state with the new user data
+      reset(updatedUser.data.data.user); // Reset the form with the updated values
       setEditMode({});
     } catch (error) {
       toast.error("Failed to update user information.");
@@ -90,7 +77,6 @@ function Account() {
           <input
             type="file"
             id="avatar-input"
-            onChange={handleAvatarChange}
             className="hidden"
             ref={fileInputRef}
           />
