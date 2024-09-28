@@ -1,11 +1,12 @@
 import axiosInstance from "./axiosInstance";
 
 export const submitReview = async ({ productId, rating, comment }) => {
+  console.log(productId, rating, comment);
   try {
     const response = await axiosInstance.post(
       `/products/${productId}/reviews`,
       {
-        review: comment, // 'review' field contains the comment text
+        comment, 
         rating,
       },
     );

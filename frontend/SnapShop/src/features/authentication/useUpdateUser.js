@@ -5,12 +5,14 @@ import { handleError } from "../../utils/errorHandling";
 
 export const useUpdateUser = () => {
   const mutation = useMutation({
-    mutationFn: (data) => axiosInstance.patch("/users/updateMe", data),
-    // eslint-disable-next-line no-unused-vars
+    mutationFn: (data) =>
+      axiosInstance.patch("/users/updateMe", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }),
     onSuccess: (response) => {
       toast.success("User information updated successfully!");
-      // Return the updated user data
-      console.log(response.data.data.user);
       return response.data.data.user;
     },
     onError: (error) => {

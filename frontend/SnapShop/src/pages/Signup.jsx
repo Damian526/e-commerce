@@ -5,7 +5,7 @@ import { useSignup } from "../features/authentication/useSignup";
 import { toast } from "react-hot-toast";
 
 function Signup() {
-  const { signup, isLoading } = useSignup();
+  const { mutate: signup, isLoading } = useSignup();
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
