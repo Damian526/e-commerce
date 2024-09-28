@@ -1,3 +1,4 @@
+const multer = require('multer');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -11,11 +12,39 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+// Multer configuration for file uploads
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/img/users'); // Specify your destination folder for uploads
+  },
+  filename: (req, file, cb) => {
+    // Create a unique filename
+    const ext = file.mimetype.split('/')[1];
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+  },
+});
+
+const multerFilter = (req, file, cb) => {
+  // Only allow image uploads
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image! Please upload only images.', 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+// Middleware to handle user photo uploads
+exports.uploadUserPhoto = upload.single('photo');
+
 // Get all users
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
 
-  // Send response
   res.status(200).json({
     status: 'success',
     results: users.length,
@@ -27,7 +56,9 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
 // Update user data
 exports.updateMe = catchAsync(async (req, res, next) => {
-  // 1) Create error if user POSTs password data
+  // Log request body and file
+
+  // Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
@@ -37,7 +68,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) Filter out unwanted fields names that are not allowed to be updated
+  // Filter out unwanted fields names that are not allowed to be updated
   const filteredBody = filterObj(
     req.body,
     'firstName',
@@ -46,7 +77,12 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     'phone',
   );
 
-  // 3) Ensure none of the fields are empty
+  // Check if a photo was uploaded and add it to filteredBody
+  if (req.file) {
+    filteredBody.photo = req.file.filename; // Save the filename in the database
+  }
+
+  // Ensure none of the fields are empty
   if (
     !filteredBody.firstName ||
     !filteredBody.lastName ||
@@ -56,7 +92,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     return next(new AppError('All fields must be filled out', 400));
   }
 
-  // 4) Update user document
+  // Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
@@ -82,7 +118,6 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 
 // Get current user data
 exports.getMe = catchAsync(async (req, res, next) => {
-  // req.user is already set in the protect middleware
   const user = await User.findById(req.user.id);
 
   if (!user) {
