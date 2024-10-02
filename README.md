@@ -1,21 +1,39 @@
 ## How to Run the Project
 
-### Running the Backend
+### In Development Mode
 
-- **In Development Mode**:
-  - To start the backend in development mode, open your terminal and run:
+- **Running backend**:
+   To start the backend in development mode, open your terminal and run the following command to move to the backend folder:
+   ```bash
+    cd backend
+    ```
+    Next you need to install the required dependencies. Open your terminal, navigate to the backend folder, and run the following command:
+    ```bash
+    npm install
+    ```
+    To run project: 
     ```bash
     npm run dev
     ```
-  - Alternatively, you can use:
-    ```bash
-    npm start
+
+- **Running frontend**:
+   To start the frontend in development mode, open your terminal and run the following command to move to the frontend folder:
+   ```bash
+    cd frontend/SnapShop
     ```
+    Next you need to install the required dependencies. Open your terminal, navigate to the backend folder, and run the following command:
+    ```bash
+    npm install
+    ```
+    To run project: 
+    ```bash
+    npm run dev
+    ``` 
 
-### Links
+### Links 
 
-- **Api**: [link1](https://snapshop-ey7u.onrender.com)
-- **Frontend**: [link2](https://snapshop-e-commerce.vercel.app/)
+- **Api**: [SnapShop Api](https://snapshop-ey7u.onrender.com)
+- **Frontend**: [SnapShop official website](https://snapshop-e-commerce.vercel.app/)
 
 
 ## Important!
