@@ -13,7 +13,7 @@
     ```
     To run project: 
     ```bash
-    npm run dev
+    npm run start:dev
     ```
 
 - **Running frontend**:
