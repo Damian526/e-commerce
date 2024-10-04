@@ -2,10 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import { VitePWA } from 'vite-plugin-pwa';
-import dotenv from 'dotenv';
 
-// Load environment variables from .env file
-dotenv.config();
 
 export default defineConfig({
   plugins: [
@@ -80,7 +77,7 @@ export default defineConfig({
           },
           // Cache API responses
           {
-            urlPattern: new RegExp(`${import.meta.env.VITE_API_BASE_URL}/.*`),  // Adjust this to match your API domain
+            urlPattern: new RegExp(`${process.env.VITE_API_BASE_URL}/.*`),  // Adjust this to match your API domain
             handler: 'NetworkFirst', // Try network first, fallback to cache
             options: {
               cacheName: 'api-cache',
